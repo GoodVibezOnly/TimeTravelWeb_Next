@@ -11,10 +11,6 @@ interface Response {
   images: Array<{ url: string }>;
 }
 
-interface ClipResponse {
-  caption: string;
-}
-
 const apiUrl = "http://127.0.0.1:7860";
 
 const FileUploader: React.FC<Props> = ({}) => {
@@ -25,10 +21,10 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [isProcessed, setIsProcessed] = useState<boolean>(false);
   const [response, setResponse] = useState<Response>({ images: [] });
   const [clipResponse, setClipResponse] = useState<Response>();
-  var [clipPrompt, setClipPrompt] = useState<string>("");
   const [croppedImage, setCroppedImage] = useState<string>("");
   const [showOriginal, setShowOriginal] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>("");
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -71,7 +67,6 @@ const FileUploader: React.FC<Props> = ({}) => {
     setIsProcessed(false);
     setShowOriginal(false);
     setClipResponse(undefined);
-    setClipPrompt("");
   };
 
   const handleShowOriginalButton = () => {
@@ -86,61 +81,55 @@ const FileUploader: React.FC<Props> = ({}) => {
       const base64data = reader.result;
       setBase64Image(base64data as string);
     };
-
-    const payloadInterrogate = {
-      image: base64Image,
-      model: "clip",
-    };
-
     try {
-      const clipResponse = await axios.post<ClipResponse>(
-        `${apiUrl}/sdapi/v1/interrogate`,
-        payloadInterrogate
-      );
-
-      clipPrompt = clipResponse.data.caption;
-      console.log("POST request");
+      /**
+       * * Interrogate the image
+       */
+      console.log("START IMAGE INTERROGATION");
+      setStatus("Interrogating image...");
+      const fetchCaption = await fetch("api/interrogateImage", {
+        method: "POST",
+        body: JSON.stringify({ image: base64Image }),
+      });
+      const interrogationResponse = await fetchCaption.json();
+      const clipPrompt = interrogationResponse.caption;
       setIsLoading(true);
       console.log("clip:" + clipPrompt);
+      console.log("END IMAGE INTERROGATION");
 
+      console.log(clipPrompt);
+
+      /**
+       * * Get prompt
+       */
+      console.log("START PROMPT FETCH");
+      setStatus("Fetching prompt...");
       const fetchPrompt = await fetch("api/getPrompt", {
         method: "POST",
         body: JSON.stringify({ year: year, clipPrompt: clipPrompt }),
       });
       const promptResponse = await fetchPrompt.json();
-
       console.log(promptResponse.promptText);
-      const payload = {
-        prompt: promptResponse.promptText,
-        negatives:
-          "painting, render, distorted face, Overexposed, render, lowquality, deformed bodys, text, distorted face, picture frame, oversaturated, overexposed, underexposed, painting, distorted, writing, border, multiple images, blurry, watermark, unrealistic, lowresolution, lowquality, lowcontrast, pixelated, noisy, unnatural, artefact, moiré, motion blur, compression artefacts",
-        steps: 35,
-        height: 512,
-        width: 512,
-        sampler_index: "Euler a",
-        restoreFaces: "true",
-        alwayson_scripts: {
-          controlnet: {
-            args: [
-              {
-                input_image: base64Image,
-                module: "canny",
-                model: "control_v11p_sd15_canny [d14c016b]",
-                weight: 0.7,
-                lowvram: false,
-                // "guessmode": false,
-              },
-            ],
-          },
-        },
-      };
+      console.log("END PROMPT FETCH");
+
+      /**
+       * * Convert image
+       */
+      setStatus("Converting image...");
+      console.log("START IMAGE CONVERSION");
       try {
-        const response = await axios.post<Response>(
-          `${apiUrl}/sdapi/v1/txt2img`,
-          payload
-        );
-        setResponse(response.data);
-        console.log("POST request successful");
+        const fetchConvert = await fetch("api/convertImage", {
+          method: "POST",
+          body: JSON.stringify({
+            prompt: promptResponse.promptText,
+            image: base64Image,
+          }),
+        });
+        const convertResponse = await fetchConvert.json();
+        setResponse(convertResponse.images[0]);
+        console.log("END IMAGE CONVERSION");
+        setStatus("");
+
         setIsLoading(false);
         setIsProcessed(true);
       } catch (error) {
@@ -188,6 +177,11 @@ const FileUploader: React.FC<Props> = ({}) => {
                   your image is being processed.<p>This may take a while!</p>{" "}
                 </h2>
               </div>
+              {status !== "" && (
+                <div>
+                  <h3 className="text-red-500">{status}</h3>
+                </div>
+              )}
             </div>
           ) : isProcessed ? (
             <div>
@@ -214,7 +208,7 @@ const FileUploader: React.FC<Props> = ({}) => {
                     <Image
                       className="clickableImages"
                       onClick={handleShowOriginalButton}
-                      src={`data:image/png;base64,${response.images[0]}`}
+                      src={`data:image/png;base64,${response}`}
                       alt="cool"
                       width={512}
                       height={512}
