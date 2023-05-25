@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 interface Response {
   images: Array<{ url: string }>;
@@ -54,7 +55,12 @@ const NewImageComponent: React.FC = () => {
           </div>
         </div>
       ) : response.images.length > 0 ? (
-        <img src={`data:image/png;base64,${response.images[0]}`} alt="" />
+        <Image
+          src={`data:image/png;base64,${response.images[0]}`}
+          alt=""
+          width={512}
+          height={512}
+        />
       ) : (
         <div className="upload"></div>
       )}

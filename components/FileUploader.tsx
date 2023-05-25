@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import FileResizer from "react-image-file-resizer";
+import Image from "next/image";
 
 interface Props {}
 
@@ -28,23 +29,6 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [croppedImage, setCroppedImage] = useState<string>("");
   const [showOriginal, setShowOriginal] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
-
-  /**
-   * TODO: Move Colors to route handler
-   */
-  let colors: string[] = [
-    "red",
-    "green",
-    "blue",
-    "yellow",
-    "orange",
-    "purple",
-    "pink",
-    "brown",
-    "black",
-    "color",
-    "colorized",
-  ];
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -114,33 +98,20 @@ const FileUploader: React.FC<Props> = ({}) => {
         payloadInterrogate
       );
 
-      if (year <= 1950) {
-        console.log("year <= 1950");
-        // remove every word in this string that is a color
-        let prompt = clipResponse.data.caption;
-        for (let i = 0; i < colors.length; i++) {
-          const regex = new RegExp(colors[i] + "\\s*", "gi");
-          prompt = prompt.replace(regex, "");
-        }
-
-        console.log(prompt);
-        console.log(typeof prompt);
-        clipPrompt = prompt;
-        console.log(clipPrompt);
-      } else {
-        console.log("year > 1950");
-
-        clipPrompt = clipResponse.data.caption;
-      }
-
+      clipPrompt = clipResponse.data.caption;
       console.log("POST request");
       setIsLoading(true);
       console.log("clip:" + clipPrompt);
-      var prompt = getPrompt(clipPrompt);
 
-      console.log(prompt);
+      const fetchPrompt = await fetch("api/getPrompt", {
+        method: "POST",
+        body: JSON.stringify({ year: year, clipPrompt: clipPrompt }),
+      });
+      const promptResponse = await fetchPrompt.json();
+
+      console.log(promptResponse.promptText);
       const payload = {
-        prompt: prompt,
+        prompt: promptResponse.promptText,
         negatives:
           "painting, render, distorted face, Overexposed, render, lowquality, deformed bodys, text, distorted face, picture frame, oversaturated, overexposed, underexposed, painting, distorted, writing, border, multiple images, blurry, watermark, unrealistic, lowresolution, lowquality, lowcontrast, pixelated, noisy, unnatural, artefact, moiré, motion blur, compression artefacts",
         steps: 35,
@@ -188,122 +159,6 @@ const FileUploader: React.FC<Props> = ({}) => {
     }
   };
 
-  /**
-   * TODO: Move to API route and just call in this function
-   */
-  function getPrompt(clipPrompt: string) {
-    console.log("This is the" + clipPrompt);
-
-    if (year >= 1900 && year < 1910) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1900s photograph, Lumière Autochrome plates, old, black and white photography, analogue photography, film grain,"
-      );
-    } else if (year >= 1910 && year < 1920) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1910s photograph, Kodak No. 1 Autographic Special, black and white photography, film grain,"
-      );
-    } else if (year >= 1920 && year < 1930) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1920s photograph, Kodak Autographic, black and white photography, film grain,"
-      );
-    } else if (year >= 1930 && year < 1940) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1930s photograph, Kodak Kodachrome film, sepia photography, analogue photography, film grain, "
-      );
-    } else if (year >= 1940 && year < 1950) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1940s photograph, Kodak Tri-X, analogue photography, film grain,"
-      );
-    } else if (year >= 1950 && year < 1960) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1950s photograph, Kodak Ektachrome film, analogue photography, film grain,"
-      );
-    } else if (year >= 1960 && year < 1970) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1960s photograph, Kodak Kodachrome film, analogue photography, film grain,"
-      );
-    } else if (year >= 1970 && year < 1980) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1970s photograph, Fujifilm Velvia film, analogue photography, film grain,"
-      );
-    } else if (year >= 1980 && year < 1990) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1980s photograph, Kodak Ektachrome film, analogue photography, film grain,"
-      );
-    } else if (year >= 1990 && year < 2000) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", 1990s photograph, Fujifilm Superia film, analogue photography, film grain,"
-      );
-    } else if (year >= 2000 && year < 2005) {
-      return (
-        year.toString() +
-        " photograph, " +
-        clipPrompt +
-        ", early 2000s photograph, color photograph, Kodak Portra film, analogue photography, film grain,"
-      );
-    } else if (year >= 2005 && year < 2010) {
-      return (
-        "Photograph taken in " +
-        year.toString() +
-        " modern color photograph,  " +
-        clipPrompt +
-        ", mid 2000s photograph, color photograph, Canon EOS 40D, Nikon digital photography,"
-      );
-    } else if (year >= 2010 && year < 2020) {
-      return (
-        "Photograph taken in " +
-        year.toString() +
-        ", color photograph,  " +
-        clipPrompt +
-        ", 2010s photograph, DSLR, Canon EOS, beautiful, Flickr,"
-      );
-    } else if (year >= 2020) {
-      return (
-        year.toString() +
-        "modern photograph,  " +
-        clipPrompt +
-        " 2020s photograph, smartphone, iPhone, Samsung Galaxy, Google Pixel, computational photography, AI, 4K,"
-      );
-    } else {
-      return (
-        year.toString() +
-        " photograph,  " +
-        clipPrompt +
-        ", photograph, professional, art"
-      );
-    }
-  }
-
   return (
     <div className="">
       <input
@@ -317,7 +172,12 @@ const FileUploader: React.FC<Props> = ({}) => {
             <div>
               <div className="centerContainer">
                 <div className="upload">
-                  <img src={croppedImage} alt="Uploaded file preview" />
+                  <Image
+                    src={croppedImage}
+                    alt="Uploaded file preview"
+                    width={512}
+                    height={512}
+                  />
                 </div>
                 <div className="loading">
                   <div className="loadingAnimation">⏳</div>
@@ -334,11 +194,13 @@ const FileUploader: React.FC<Props> = ({}) => {
               {showOriginal ? (
                 <div>
                   {/* TODO: Open popup with image in fullscreen */}
-                  <img
+                  <Image
                     className="clickableImages"
                     onClick={handleShowOriginalButton}
                     src={croppedImage}
                     alt="The original uplaod."
+                    width={512}
+                    height={512}
                   />
                   <h1>original image</h1>
                   <button onClick={handleShowOriginalButton}>
@@ -349,11 +211,13 @@ const FileUploader: React.FC<Props> = ({}) => {
               ) : (
                 <div>
                   <div>
-                    <img
+                    <Image
                       className="clickableImages"
                       onClick={handleShowOriginalButton}
                       src={`data:image/png;base64,${response.images[0]}`}
                       alt="cool"
+                      width={512}
+                      height={512}
                     />
                     <h1>{year}</h1>
                     <button onClick={handleShowOriginalButton}>
@@ -367,7 +231,12 @@ const FileUploader: React.FC<Props> = ({}) => {
           ) : (
             <div>
               <div>
-                <img src={croppedImage} alt="Uploaded file preview" />
+                <Image
+                  src={croppedImage}
+                  alt="Uploaded file preview"
+                  width={512}
+                  height={512}
+                />
               </div>
 
               {showError ? (
