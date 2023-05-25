@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import FileResizer from "react-image-file-resizer";
 
 interface Props {}
 
@@ -28,6 +29,9 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [showOriginal, setShowOriginal] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
 
+  /**
+   * TODO: Move Colors to route handler
+   */
   let colors: string[] = [
     "red",
     "green",
@@ -42,7 +46,9 @@ const FileUploader: React.FC<Props> = ({}) => {
     "colorized",
   ];
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setIsProcessed(false);
     if (event.target.files) {
       const file = event.target.files[0];
@@ -56,32 +62,24 @@ const FileUploader: React.FC<Props> = ({}) => {
         alert("File size is too big");
         return;
       }
-
-      // Crop image to square and resize to 512x512
-      const img = new Image();
-      img.onload = function () {
-        setShowOriginal(false);
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        const width = img.width;
-        const height = img.height;
-        const size = Math.min(width, height);
-
-        canvas.width = size;
-        canvas.height = size;
-        if (ctx === null) return;
-
-        // Determine the cropping area
-        const x = (width - size) / 2;
-        const y = (height - size) / 2;
-
-        ctx.drawImage(img, x, y, size, size, 0, 0, size, size);
-        const croppedImage = canvas.toDataURL(file.type);
-        setSelectedFile(file);
-        setBase64Image(croppedImage);
-        setCroppedImage(croppedImage);
-      };
-      img.src = URL.createObjectURL(file);
+      try {
+        FileResizer.imageFileResizer(
+          file,
+          512,
+          512,
+          file.type.split("/")[1],
+          100,
+          0,
+          (uri) => {
+            setSelectedFile(file);
+            setBase64Image(uri as string);
+            setCroppedImage(uri as string);
+          },
+          "base64"
+        );
+      } catch (err) {
+        console.error("something went wrong with the image resizer");
+      }
     }
   };
 
@@ -109,6 +107,7 @@ const FileUploader: React.FC<Props> = ({}) => {
       image: base64Image,
       model: "clip",
     };
+
     try {
       const clipResponse = await axios.post<ClipResponse>(
         `${apiUrl}/sdapi/v1/interrogate`,
@@ -189,6 +188,9 @@ const FileUploader: React.FC<Props> = ({}) => {
     }
   };
 
+  /**
+   * TODO: Move to API route and just call in this function
+   */
   function getPrompt(clipPrompt: string) {
     console.log("This is the" + clipPrompt);
 
