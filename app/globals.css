@@ -2,26 +2,129 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body {
+  @apply bg-gray-800 text-center align-middle text-gray-200 mx-auto
+  bg-center flex-auto justify-center;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+h1 {
+  @apply mt-4 text-4xl font-bold uppercase;
+}
+h2 {
+  @apply mt-4 font-thin text-2xl uppercase z-30;
+}
+.h1Error {
+  @apply mt-4 text-4xl font-bold uppercase text-red-500;
+}
+
+.h2Error {
+  @apply mt-4 font-thin text-2xl uppercase z-30 text-red-500;
+}
+
+.yearText {
+  @apply mt-1 text-4xl font-bold uppercase;
+}
+
+button {
+  @apply border text-white font-bold py-4 px-4 m-4 duration-200 ease-in-out rounded-2xl bg-gray-800 uppercase;
+}
+button:hover {
+  @apply bg-gray-700 scale-105;
+}
+button:active {
+  @apply bg-gray-900 scale-95;
+}
+
+input[type="file"] {
+  @apply m-4  bg-gray-800 border border-cyan-800 border-dashed border-spacing-5 rounded-2xl shadow-2xl duration-200;
+}
+
+/* button of input type file */
+input[type="file"]::-webkit-file-upload-button {
+  @apply border text-white font-bold py-4 px-4  m-4 duration-200 ease-in-out rounded-2xl bg-gray-800 uppercase border-spacing-0 border-white outline-red-200 hover:scale-105 active:scale-95;
+}
+
+img {
+  height: 500px;
+  width: 500px;
+  @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
+}
+
+.clickableImages {
+  @apply cursor-pointer;
+}
+
+.clickableImages:hover {
+  @apply scale-105;
+}
+
+.clickableImages:active {
+  @apply scale-95;
+}
+
+.centerContainer {
+  height: 500px;
+  width: 500px;
+  @apply flex relative items-center ml-auto mr-auto;
+}
+
+.upload {
+  z-index: 0;
+  position: absolute;
+
+  height: 500px;
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @apply duration-200 select-none ease-in-out mr-auto ml-auto rounded-3xl bg-gray-900 shadow-2xl;
+}
+
+.loading {
+  z-index: 10;
+  position: absolute;
+  height: 500px;
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @apply duration-200 select-none ease-in-out mr-auto ml-auto rounded-3xl bg-black bg-opacity-40 backdrop-blur-sm;
+}
+
+.loadingAnimation {
+  animation: loadingAnimationSpin infinite 1s linear;
+  @apply text-4xl select-none duration-300 shadow-none opacity-100;
+}
+
+@keyframes loadingAnimationSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
   }
 }
+.loadingAnimation:hover {
+  @apply text-5xl;
+}
+.loadingAnimation:active {
+  @apply text-3xl;
+}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.FileUploader {
+  height: 500px;
+  width: 500px;
+  @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl bg-gray-900 shadow-2xl;
+}
+
+.startButton {
+  width: 300px;
+  @apply border text-white font-bold py-4 px-4 m-0 duration-200 ease-in-out rounded-2xl bg-blue-600 uppercase border-none shadow-2xl;
+}
+
+/* imput type range color green */
+input[type="range"] {
+  width: 500px;
+  @apply bg-green-600 m-4;
 }
