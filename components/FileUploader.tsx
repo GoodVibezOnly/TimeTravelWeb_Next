@@ -1,17 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import axios from "axios";
+const GIFEncoder = require("gif-encoder-2");
 import FileResizer from "react-image-file-resizer";
-import Image from "next/image";
+import NextImage from "next/image";
 
 interface Props {}
 
 interface Response {
   images: Array<{ url: string }>;
 }
-
-const apiUrl = "http://127.0.0.1:7860";
 
 const FileUploader: React.FC<Props> = ({}) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -26,6 +24,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [showError, setShowError] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
   const [gifResponse, setGifResponse] = useState<any>();
+  const [buffer, setBuffer] = useState<any>();
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -207,9 +206,44 @@ const FileUploader: React.FC<Props> = ({}) => {
       setIsLoading(false);
       setIsProcessed(true);
       setGifResponse(convertedImages);
+      generateGif(convertedImages);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const generateGif = async (images: any[]) => {
+    const gifEncoder = new GIFEncoder(512, 512, "neuquant");
+    gifEncoder.start();
+    gifEncoder.setDelay(500);
+
+    for (let i = 0; i < images.length; i++) {
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0);
+        gifEncoder.addFrame(ctx);
+      };
+      image.src = `data:image/png;base64,${images[i]}`;
+    }
+    gifEncoder.finish();
+    const data = gifEncoder.out.getData();
+
+    let blobToImage = (binaryUrl: any) => {
+      var canvas = document.createElement("canvas");
+      var img = document.createElement("img");
+      img.src = binaryUrl;
+      var context = canvas.getContext("2d");
+      context.drawImage(img, 0, 0);
+      return canvas.toDataURL("image/gif");
+    };
+
+    let imageUrl = blobToImage(
+      URL.createObjectURL(new Blob([data], { type: "image/gif" }))
+    );
+    setBuffer(imageUrl);
+    console.log(gifEncoder.out.getData());
   };
 
   const handleUpload = () => {
@@ -231,7 +265,7 @@ const FileUploader: React.FC<Props> = ({}) => {
             <div>
               <div className="centerContainer">
                 <div className="upload">
-                  <Image
+                  <NextImage
                     src={croppedImage}
                     alt="Uploaded file preview"
                     width={512}
@@ -258,7 +292,7 @@ const FileUploader: React.FC<Props> = ({}) => {
               {showOriginal ? (
                 <div>
                   {/* TODO: Open popup with image in fullscreen */}
-                  <Image
+                  <NextImage
                     className="clickableImages"
                     onClick={handleShowOriginalButton}
                     src={croppedImage}
@@ -275,23 +309,18 @@ const FileUploader: React.FC<Props> = ({}) => {
               ) : (
                 <div>
                   <div>
-                    {gifResponse ? (
-                      gifResponse.map((image: any, index: number) => (
-                        <div key={index}>
-                          <Image
-                            className="clickableImages"
-                            onClick={handleShowOriginalButton}
-                            src={`data:image/png;base64,${image}`}
-                            alt="cool"
-                            width={512}
-                            height={512}
-                          />
-                          <h1>{1900 + index * 5}</h1>
-                        </div>
-                      ))
+                    {buffer ? (
+                      <NextImage
+                        className="clickableImages"
+                        onClick={handleShowOriginalButton}
+                        src={`${buffer}`}
+                        alt="cool"
+                        width={512}
+                        height={512}
+                      />
                     ) : (
                       <div>
-                        <Image
+                        <NextImage
                           className="clickableImages"
                           onClick={handleShowOriginalButton}
                           src={`data:image/png;base64,${response}`}
@@ -313,7 +342,7 @@ const FileUploader: React.FC<Props> = ({}) => {
           ) : (
             <div>
               <div>
-                <Image
+                <NextImage
                   src={croppedImage}
                   alt="Uploaded file preview"
                   width={512}
