@@ -25,6 +25,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [showOriginal, setShowOriginal] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
+  const [gifResponse, setGifResponse] = useState<any>();
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -142,6 +143,75 @@ const FileUploader: React.FC<Props> = ({}) => {
     }
   };
 
+  const handleClickGif = async () => {
+    setIsLoading(true);
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedFile as Blob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      setBase64Image(base64data as string);
+    };
+
+    try {
+      /**
+       * * Interrogate the image
+       */
+      console.log("START IMAGE INTERROGATION");
+      setStatus("Interrogating image...");
+      const fetchCaption = await fetch("api/interrogateImage", {
+        method: "POST",
+        body: JSON.stringify({ image: base64Image }),
+      });
+      const interrogationResponse = await fetchCaption.json();
+      const clipPrompt = interrogationResponse.caption;
+      setIsLoading(true);
+      console.log("clip:" + clipPrompt);
+      console.log("END IMAGE INTERROGATION");
+
+      console.log(clipPrompt);
+
+      let prompts = [];
+
+      console.log("START PROMPT FETCH");
+      setStatus("Fetching prompt...");
+
+      for (let i = 1900; i <= 2020; i = i + 5) {
+        const fetchPrompt = await fetch("api/getPrompt", {
+          method: "POST",
+          body: JSON.stringify({ year: i, clipPrompt: clipPrompt }),
+        });
+        const promptResponse = await fetchPrompt.json();
+        prompts.push(promptResponse.promptText);
+      }
+
+      console.log("END PROMPT FETCH");
+      console.log(prompts);
+
+      setStatus("Converting image...");
+      console.log("START IMAGE CONVERSION");
+      let convertedImages = [];
+
+      for (let i = 0; i < prompts.length; i++) {
+        const fetchConvert = await fetch("api/convertImage", {
+          method: "POST",
+          body: JSON.stringify({
+            prompt: prompts[i],
+            image: base64Image,
+          }),
+        });
+        const convertResponse = await fetchConvert.json();
+        convertedImages.push(convertResponse.images[0]);
+      }
+      console.log("END IMAGE CONVERSION");
+      setStatus("");
+      setIsLoading(false);
+      setIsProcessed(true);
+      setGifResponse(convertedImages);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleUpload = () => {
     if (selectedFile) {
       setSelectedFile(null);
@@ -205,15 +275,33 @@ const FileUploader: React.FC<Props> = ({}) => {
               ) : (
                 <div>
                   <div>
-                    <Image
-                      className="clickableImages"
-                      onClick={handleShowOriginalButton}
-                      src={`data:image/png;base64,${response}`}
-                      alt="cool"
-                      width={512}
-                      height={512}
-                    />
-                    <h1>{year}</h1>
+                    {gifResponse ? (
+                      gifResponse.map((image: any, index: number) => (
+                        <div key={index}>
+                          <Image
+                            className="clickableImages"
+                            onClick={handleShowOriginalButton}
+                            src={`data:image/png;base64,${image}`}
+                            alt="cool"
+                            width={512}
+                            height={512}
+                          />
+                          <h1>{1900 + index * 5}</h1>
+                        </div>
+                      ))
+                    ) : (
+                      <div>
+                        <Image
+                          className="clickableImages"
+                          onClick={handleShowOriginalButton}
+                          src={`data:image/png;base64,${response}`}
+                          alt="cool"
+                          width={512}
+                          height={512}
+                        />
+                        <h1> {year}</h1>
+                      </div>
+                    )}
                     <button onClick={handleShowOriginalButton}>
                       show original
                     </button>
@@ -261,6 +349,9 @@ const FileUploader: React.FC<Props> = ({}) => {
                       Lets Go
                     </button>
                   </div>
+                  <button className="startButton" onClick={handleClickGif}>
+                    Lets Gif
+                  </button>
                 </div>
               )}
             </div>
