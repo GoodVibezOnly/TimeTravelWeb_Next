@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import FileResizer from "react-image-file-resizer";
 import NextImage from "next/image";
+import ts from "typescript";
 
 interface Props {}
 
@@ -212,6 +213,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   };
 
   const generateGif = async (images: any[]) => {
+    //@ts-expect-error
     const gif = new GIF({
       workers: 2,
       quality: 10,
