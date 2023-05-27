@@ -17,7 +17,7 @@
     "canvas": "^2.11.2",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
-    "gif-encoder-2": "^1.0.5",
+    "gif.js.optimized": "^1.0.1",
     "next": "13.4.3",
     "postcss": "8.4.23",
     "react": "18.2.0",

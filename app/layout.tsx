@@ -1,3 +1,4 @@
+import Script from "next/script";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -15,6 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
+      <Script src="https://cdn.jsdelivr.net/npm/gif.js.optimized@1.0.1/dist/gif.min.js"></Script>
       <body className={inter.className} suppressHydrationWarning={true}>
         {children}
       </body>

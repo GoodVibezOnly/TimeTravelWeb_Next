@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-const GIFEncoder = require("gif-encoder-2");
 import FileResizer from "react-image-file-resizer";
 import NextImage from "next/image";
 
@@ -213,37 +212,39 @@ const FileUploader: React.FC<Props> = ({}) => {
   };
 
   const generateGif = async (images: any[]) => {
-    const gifEncoder = new GIFEncoder(512, 512, "neuquant");
-    gifEncoder.start();
-    gifEncoder.setDelay(500);
+    const gif = new GIF({
+      workers: 2,
+      quality: 10,
+    });
+    console.log(images);
 
-    for (let i = 0; i < images.length; i++) {
-      const image = new Image();
-      image.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(image, 0, 0);
-        gifEncoder.addFrame(ctx);
-      };
-      image.src = `data:image/png;base64,${images[i]}`;
+    function loadImage(uri: string) {
+      return new Promise<void>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          gif.addFrame(img, { copy: true, delay: 200 }); // Add the image to the GIF with a delay of 200 milliseconds
+          resolve();
+        };
+        img.onerror = reject;
+        img.src = uri;
+      });
     }
-    gifEncoder.finish();
-    const data = gifEncoder.out.getData();
 
-    let blobToImage = (binaryUrl: any) => {
-      var canvas = document.createElement("canvas");
-      var img = document.createElement("img");
-      img.src = binaryUrl;
-      var context = canvas.getContext("2d");
-      context.drawImage(img, 0, 0);
-      return canvas.toDataURL("image/gif");
-    };
+    try {
+      for (const uri of images) {
+        await loadImage("data:image/png;base64," + uri);
+      }
 
-    let imageUrl = blobToImage(
-      URL.createObjectURL(new Blob([data], { type: "image/gif" }))
-    );
-    setBuffer(imageUrl);
-    console.log(gifEncoder.out.getData());
+      gif.render(); // Start rendering the GIF
+
+      // Handle the GIF rendering completion
+      gif.on("finished", function (blob: Blob | MediaSource) {
+        const url = URL.createObjectURL(blob);
+        setBuffer(url);
+      });
+    } catch (error) {
+      console.error("Error creating GIF:", error);
+    }
   };
 
   const handleUpload = () => {
