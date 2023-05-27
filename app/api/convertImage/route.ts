@@ -8,7 +8,7 @@ interface ConvertResponse {
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const prompt = data.prompt;
-  const input_image = data.input_image;
+  const input_image = data.image;
 
   const convertResponse = await axios.post<ConvertResponse>(
     "http://127.0.0.1:7860/sdapi/v1/txt2img",
