@@ -3,13 +3,18 @@
 import React, { useState } from "react";
 import FileResizer from "react-image-file-resizer";
 import NextImage from "next/image";
-import ts from "typescript";
+import {
+  IResponseImage,
+  IRespone,
+  IinterrogateRequest,
+  IinterrogateResponse,
+  IgetPromptResponse,
+  IconvertRequest,
+  IgetPromptRequest,
+} from "@/helpers/interfaces";
+import { generateGif } from "@/helpers/generateGif";
 
 interface Props {}
-
-interface Response {
-  images: Array<{ url: string }>;
-}
 
 const FileUploader: React.FC<Props> = ({}) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -17,13 +22,11 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [base64Image, setBase64Image] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isProcessed, setIsProcessed] = useState<boolean>(false);
-  const [response, setResponse] = useState<Response>({ images: [] });
-  const [clipResponse, setClipResponse] = useState<Response>();
+  const [response, setResponse] = useState<IResponseImage>();
   const [croppedImage, setCroppedImage] = useState<string>("");
   const [showOriginal, setShowOriginal] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
-  const [gifResponse, setGifResponse] = useState<any>();
   const [buffer, setBuffer] = useState<any>();
 
   const handleFileSelect = async (
@@ -66,14 +69,13 @@ const FileUploader: React.FC<Props> = ({}) => {
   const handleBackButton = () => {
     setIsProcessed(false);
     setShowOriginal(false);
-    setClipResponse(undefined);
   };
 
   const handleShowOriginalButton = () => {
     setShowOriginal(!showOriginal);
   };
 
-  const handleClick = async () => {
+  const startHandleClick = () => {
     setIsLoading(true);
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile as Blob);
@@ -81,24 +83,53 @@ const FileUploader: React.FC<Props> = ({}) => {
       const base64data = reader.result;
       setBase64Image(base64data as string);
     };
+  };
+
+  const interrogateImage = async () => {
+    console.log("START IMAGE INTERROGATION");
+    setStatus("Interrogating image...");
+    let clipPrompt = "";
+
+    const request: IinterrogateRequest = {
+      image: base64Image,
+    };
+
     try {
-      /**
-       * * Interrogate the image
-       */
-      console.log("START IMAGE INTERROGATION");
-      setStatus("Interrogating image...");
       const fetchCaption = await fetch("api/interrogateImage", {
         method: "POST",
         body: JSON.stringify({ image: base64Image }),
       });
-      const interrogationResponse = await fetchCaption.json();
-      const clipPrompt = interrogationResponse.caption;
+      const interrogationResponse =
+        (await fetchCaption.json()) as IinterrogateResponse;
+      clipPrompt = interrogationResponse.caption;
       setIsLoading(true);
       console.log("clip:" + clipPrompt);
       console.log("END IMAGE INTERROGATION");
+    } catch (error) {
+      console.error(error);
+      clipPrompt = "ERROR";
+    }
 
-      console.log(clipPrompt);
+    return clipPrompt;
+  };
 
+  const handleClick = async () => {
+    startHandleClick();
+
+    const clipPrompt = await interrogateImage();
+    if (clipPrompt === "ERROR") {
+      setIsLoading(false);
+      setShowError(true);
+      return;
+    }
+    console.log(clipPrompt);
+
+    const getPromptRequest: IgetPromptRequest = {
+      year: year,
+      clipPrompt: clipPrompt,
+    };
+
+    try {
       /**
        * * Get prompt
        */
@@ -106,10 +137,10 @@ const FileUploader: React.FC<Props> = ({}) => {
       setStatus("Fetching prompt...");
       const fetchPrompt = await fetch("api/getPrompt", {
         method: "POST",
-        body: JSON.stringify({ year: year, clipPrompt: clipPrompt }),
+        body: JSON.stringify(getPromptRequest),
       });
-      const promptResponse = await fetchPrompt.json();
-      console.log(promptResponse.promptText);
+      const promptResponse = (await fetchPrompt.json()) as IgetPromptResponse;
+      console.log(promptResponse.prompt);
       console.log("END PROMPT FETCH");
 
       /**
@@ -117,15 +148,18 @@ const FileUploader: React.FC<Props> = ({}) => {
        */
       setStatus("Converting image...");
       console.log("START IMAGE CONVERSION");
+
+      const convertRequest: IconvertRequest = {
+        prompt: promptResponse.prompt,
+        image: base64Image,
+      };
+
       try {
         const fetchConvert = await fetch("api/convertImage", {
           method: "POST",
-          body: JSON.stringify({
-            prompt: promptResponse.promptText,
-            image: base64Image,
-          }),
+          body: JSON.stringify(convertRequest),
         });
-        const convertResponse = await fetchConvert.json();
+        const convertResponse = (await fetchConvert.json()) as IRespone;
         setResponse(convertResponse.images[0]);
         console.log("END IMAGE CONVERSION");
         setStatus("");
@@ -143,44 +177,34 @@ const FileUploader: React.FC<Props> = ({}) => {
   };
 
   const handleClickGif = async () => {
-    setIsLoading(true);
-    const reader = new FileReader();
-    reader.readAsDataURL(selectedFile as Blob);
-    reader.onloadend = () => {
-      const base64data = reader.result;
-      setBase64Image(base64data as string);
-    };
+    startHandleClick();
+
+    const clipPrompt = await interrogateImage();
+    if (clipPrompt === "ERROR") {
+      setIsLoading(false);
+      setShowError(true);
+      return;
+    }
+    console.log(clipPrompt);
 
     try {
-      /**
-       * * Interrogate the image
-       */
-      console.log("START IMAGE INTERROGATION");
-      setStatus("Interrogating image...");
-      const fetchCaption = await fetch("api/interrogateImage", {
-        method: "POST",
-        body: JSON.stringify({ image: base64Image }),
-      });
-      const interrogationResponse = await fetchCaption.json();
-      const clipPrompt = interrogationResponse.caption;
-      setIsLoading(true);
-      console.log("clip:" + clipPrompt);
-      console.log("END IMAGE INTERROGATION");
-
-      console.log(clipPrompt);
-
       let prompts = [];
 
       console.log("START PROMPT FETCH");
       setStatus("Fetching prompt...");
 
       for (let i = 1900; i <= 2020; i = i + 5) {
+        const getPromptRequest: IgetPromptRequest = {
+          year: i,
+          clipPrompt: clipPrompt,
+        };
+
         const fetchPrompt = await fetch("api/getPrompt", {
           method: "POST",
-          body: JSON.stringify({ year: i, clipPrompt: clipPrompt }),
+          body: JSON.stringify(getPromptRequest),
         });
-        const promptResponse = await fetchPrompt.json();
-        prompts.push(promptResponse.promptText);
+        const promptResponse = (await fetchPrompt.json()) as IgetPromptResponse;
+        prompts.push(promptResponse.prompt);
       }
 
       console.log("END PROMPT FETCH");
@@ -188,70 +212,37 @@ const FileUploader: React.FC<Props> = ({}) => {
 
       setStatus("Converting image...");
       console.log("START IMAGE CONVERSION");
-      let convertedImages = [];
+      let convertedImages: Array<IResponseImage> = [];
 
       for (let i = 0; i < prompts.length; i++) {
+        const convertRequest: IconvertRequest = {
+          prompt: prompts[i],
+          image: base64Image,
+        };
         const fetchConvert = await fetch("api/convertImage", {
           method: "POST",
-          body: JSON.stringify({
-            prompt: prompts[i],
-            image: base64Image,
-          }),
+          body: JSON.stringify(convertRequest),
         });
-        const convertResponse = await fetchConvert.json();
+        const convertResponse = (await fetchConvert.json()) as IRespone;
         convertedImages.push(convertResponse.images[0]);
       }
       console.log("END IMAGE CONVERSION");
-      setStatus("");
-      setIsLoading(false);
-      setIsProcessed(true);
-      setGifResponse(convertedImages);
-      generateGif(convertedImages);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-  const generateGif = async (images: any[]) => {
-    //@ts-expect-error
-    const gif = new GIF({
-      workers: 2,
-      quality: 10,
-    });
-    console.log(images);
+      setStatus("GENERATING GIF");
+      const url = generateGif(convertedImages);
+      setStatus("FINISHED GIF");
 
-    function loadImage(uri: string) {
-      return new Promise<void>((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-          gif.addFrame(img, { copy: true, delay: 200 }); // Add the image to the GIF with a delay of 200 milliseconds
-          resolve();
-        };
-        img.onerror = reject;
-        img.src = uri;
-      });
-    }
-
-    try {
-      for (const uri of images) {
-        await loadImage("data:image/png;base64," + uri);
+      if (url === null) {
+        alert("Something went wrong while generating the gif.");
+        return;
       }
 
-      gif.render(); // Start rendering the GIF
-
-      // Handle the GIF rendering completion
-      gif.on("finished", function (blob: Blob | MediaSource) {
-        const url = URL.createObjectURL(blob);
-        setBuffer(url);
-      });
+      setIsLoading(false);
+      setIsProcessed(true);
+      setStatus("");
+      setBuffer(url);
     } catch (error) {
-      console.error("Error creating GIF:", error);
-    }
-  };
-
-  const handleUpload = () => {
-    if (selectedFile) {
-      setSelectedFile(null);
+      console.error(error);
     }
   };
 
@@ -326,7 +317,7 @@ const FileUploader: React.FC<Props> = ({}) => {
                         <NextImage
                           className="clickableImages"
                           onClick={handleShowOriginalButton}
-                          src={`data:image/png;base64,${response}`}
+                          src={`data:image/png;base64,${response?.url}`}
                           alt="cool"
                           width={512}
                           height={512}
