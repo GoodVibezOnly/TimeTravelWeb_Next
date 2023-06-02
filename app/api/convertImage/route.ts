@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   const input_image = data.image;
 
   const convertResponse = await axios.post<ConvertResponse>(
-    "http://127.0.0.1:7860/sdapi/v1/txt2img",
+    process.env.STABLE_DIFF_URL + "/sdapi/v1/txt2img",
     {
       prompt: prompt,
       negatives:
