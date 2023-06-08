@@ -54,27 +54,74 @@ const FileUploader: React.FC<Props> = ({}) => {
             imageLocation.longitude
           );
           setImageLocation(location);
+        } else {
+          setImageLocation("");
         }
 
-        FileResizer.imageFileResizer(
-          file,
-          512,
-          512,
-          file.type.split("/")[1],
-          100,
-          0,
-          (uri) => {
-            setSelectedFile(file);
-            setBase64Image(uri as string);
-            setCroppedImage(uri as string);
-          },
-          "base64"
-        );
+        cropImage(file, 512, 512, (uri: string) => {
+          setSelectedFile(file);
+          setBase64Image(uri);
+          setCroppedImage(uri);
+        });
       } catch (err) {
         console.error("Something went wrong with the image resizer");
       }
     }
   };
+
+  function cropImage(
+    file: File,
+    width: number,
+    height: number,
+    callback: (uri: string) => void
+  ) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = new Image();
+      img.onload = function () {
+        const canvas = document.createElement("canvas") as HTMLCanvasElement;
+        const ctx = canvas.getContext("2d");
+
+        let cropX, cropY, cropWidth, cropHeight;
+        const aspectRatio = width / height;
+        if (img.width / img.height > aspectRatio) {
+          cropWidth = img.height * aspectRatio;
+          cropHeight = img.height;
+          cropX = (img.width - cropWidth) / 2;
+          cropY = 0;
+        } else {
+          cropWidth = img.width;
+          cropHeight = img.width / aspectRatio;
+          cropX = 0;
+          cropY = (img.height - cropHeight) / 2;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        if (ctx) {
+          ctx.drawImage(
+            img,
+            cropX,
+            cropY,
+            cropWidth,
+            cropHeight,
+            0,
+            0,
+            width,
+            height
+          );
+        }
+
+        const base64Image = canvas.toDataURL(file.type);
+
+        // Invoke the callback function with the cropped image URI
+        callback(base64Image);
+      };
+      img.src = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
 
   async function getCityAndCountry(
     latitude: number,
@@ -165,11 +212,12 @@ const FileUploader: React.FC<Props> = ({}) => {
         setResponse(convertResponse.images[0]);
         console.log("END IMAGE CONVERSION");
         setStatus("");
-
+        setImageLocation("");
         setIsLoading(false);
         setIsProcessed(true);
       } catch (error) {
         console.error(error);
+        setImageLocation("");
         setIsLoading(false);
         setShowError(true);
       }
