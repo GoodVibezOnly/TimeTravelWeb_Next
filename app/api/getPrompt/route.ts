@@ -49,7 +49,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
   } else if (year >= "1920" && year < "1930") {
     return (
       year.toString() +
-      " photograph, black and white photograph" +
+      " photograph, black and white photograph, " +
       location +
       ", " +
       clipPrompt +
@@ -58,7 +58,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
   } else if (year >= "1930" && year < "1940") {
     return (
       year.toString() +
-      " photograph, black and white photograph" +
+      " photograph, black and white photograph, " +
       location +
       ", " +
       clipPrompt +
@@ -67,7 +67,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
   } else if (year >= "1940" && year < "1950") {
     return (
       year.toString() +
-      " photograph, black and white photograph" +
+      " photograph, black and white photograph, " +
       location +
       ", " +
       clipPrompt +
@@ -89,7 +89,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
       location +
       ", " +
       clipPrompt +
-      ", 1960s photograph, Kodak Kodachrome film, analogue photography, film grain,"
+      ", 1960s photograph, Kodak Kodachrome film, analogue photography, film grain, "
     );
   } else if (year >= "1970" && year < "1980") {
     return (
