@@ -261,7 +261,7 @@ const FileUploader: React.FC<Props> = ({}) => {
       for (let i = 1900; i <= 2020; i = i + 5) {
         const fetchPrompt = await fetch("api/getPrompt", {
           method: "POST",
-          body: JSON.stringify({ year: i, clipPrompt: clipPrompt }),
+          body: JSON.stringify({ year: i, clipPrompt: clipPrompt, location: imageLocation }),
         });
         const promptResponse = await fetchPrompt.json();
         prompts.push(promptResponse.promptText);
@@ -346,6 +346,7 @@ const FileUploader: React.FC<Props> = ({}) => {
         accept="image/png, image/jpeg"
         onChange={handleFileSelect}
       />
+      
       {selectedFile !== null ? (
         <div>
           {isLoading ? (
