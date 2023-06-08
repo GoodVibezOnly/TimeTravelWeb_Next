@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import FileResizer from "react-image-file-resizer";
 import NextImage from "next/image";
 import ts from "typescript";
+import exifr from "exifr";
+import axios from "axios";
 
 interface Props {}
 
@@ -33,25 +35,34 @@ const FileUploader: React.FC<Props> = ({}) => {
     if (event.target.files) {
       const file = event.target.files[0];
       if (
-        file.type !== "image/png" &&
-        file.type !== "image/jpeg" &&
-        file.type !== "image/webp"
+        file.type !== 'image/png' &&
+        file.type !== 'image/jpeg' &&
+        file.type !== 'image/webp'
       ) {
-        alert("Only PNG, JPEG and WEBP files are allowed");
+        alert('Only PNG, JPEG, and WEBP files are allowed');
         return;
       }
-
+  
       // Check file size (max 50MB)
       if (file.size > 50000000) {
-        alert("File size is too big");
+        alert('File size is too big');
         return;
       }
       try {
+        const imageLocation = await exifr.gps(file);
+        if (imageLocation) {
+          console.log(imageLocation.latitude, imageLocation.longitude);
+          const location = await getCityAndCountry(
+            imageLocation.latitude,
+            imageLocation.longitude
+          );
+        }
+  
         FileResizer.imageFileResizer(
           file,
           512,
           512,
-          file.type.split("/")[1],
+          file.type.split('/')[1],
           100,
           0,
           (uri) => {
@@ -59,13 +70,29 @@ const FileUploader: React.FC<Props> = ({}) => {
             setBase64Image(uri as string);
             setCroppedImage(uri as string);
           },
-          "base64"
+          'base64'
         );
       } catch (err) {
-        console.error("something went wrong with the image resizer");
+        console.error('Something went wrong with the image resizer');
       }
     }
   };
+  
+  async function getCityAndCountry(latitude: number, longitude: number): Promise<string> {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+  
+    try {
+      const response = await axios.get(url);
+      const address = response.data.address;
+      const country = address.country;
+      const city = address.city || address.town || address.village;
+      return `${city}, ${country}`;
+    } catch (error) {
+      console.error('Error retrieving location information:', error);
+    }
+  
+    return '';
+  }
 
   const handleBackButton = () => {
     setIsProcessed(false);
