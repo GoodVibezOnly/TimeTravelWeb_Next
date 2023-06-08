@@ -19,7 +19,6 @@ const colors: string[] = [
   "brown",
   "black",
   "rainbow",
-
 ];
 
 function filterPrompt(prompt: string) {
@@ -41,7 +40,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
   } else if (year >= "1910" && year < "1920") {
     return (
       year.toString() +
-      " photograph, " +
+      " black and white photograph, " +
       location +
       ", " +
       clipPrompt +
@@ -50,7 +49,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
   } else if (year >= "1920" && year < "1930") {
     return (
       year.toString() +
-      " photograph, " +
+      " photograph, black and white photograph" +
       location +
       ", " +
       clipPrompt +
@@ -59,7 +58,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
   } else if (year >= "1930" && year < "1940") {
     return (
       year.toString() +
-      " photograph, " +
+      " photograph, black and white photograph" +
       location +
       ", " +
       clipPrompt +
@@ -68,7 +67,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
   } else if (year >= "1940" && year < "1950") {
     return (
       year.toString() +
-      " photograph, " +
+      " photograph, black and white photograph" +
       location +
       ", " +
       clipPrompt +
