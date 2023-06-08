@@ -6,7 +6,7 @@ import NextImage from "next/image";
 import ts from "typescript";
 import exifr from "exifr";
 import axios from "axios";
-import openai from 'openai';
+import openai from "openai";
 import ImagePopUp from "./ImagePopUp";
 
 interface Props {}
@@ -31,6 +31,11 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [buffer, setBuffer] = useState<any>();
   const [imageLocation, setImageLocation] = useState<any>();
   const [PopUpOpen, setPopUpOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string>("");
+
+  const [responseImage, setResponseImages] = useState<string>("");
+  const [originalImage, setOriginalImage] = useState<string>("");
+
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -66,6 +71,8 @@ const FileUploader: React.FC<Props> = ({}) => {
           setBase64Image(uri);
           setCroppedImage(uri);
         });
+
+        setSelectedImage(URL.createObjectURL(file));
       } catch (err) {
         console.error("Something went wrong with the image resizer");
       }
@@ -180,7 +187,6 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.log("END IMAGE INTERROGATION");
 
       console.log(clipPrompt);
-      
 
       /**
        * * Get prompt
@@ -214,6 +220,7 @@ const FileUploader: React.FC<Props> = ({}) => {
         });
         const convertResponse = await fetchConvert.json();
         setResponse(convertResponse.images[0]);
+        setResponseImages(convertResponse.images);
         console.log("END IMAGE CONVERSION");
         setStatus("");
         setImageLocation("");
@@ -231,9 +238,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   };
 
   // function to give text to gpt api
-  function GPT () {
-
-  }
+  function GPT() {}
 
   const handleClickGif = async () => {
     setIsLoading(true);
@@ -270,7 +275,11 @@ const FileUploader: React.FC<Props> = ({}) => {
       for (let i = 1900; i <= 2020; i = i + 5) {
         const fetchPrompt = await fetch("api/getPrompt", {
           method: "POST",
-          body: JSON.stringify({ year: i, clipPrompt: clipPrompt, location: imageLocation }),
+          body: JSON.stringify({
+            year: i,
+            clipPrompt: clipPrompt,
+            location: imageLocation,
+          }),
         });
         const promptResponse = await fetchPrompt.json();
         prompts.push(promptResponse.promptText);
@@ -342,11 +351,22 @@ const FileUploader: React.FC<Props> = ({}) => {
     }
   };
 
-  const handleUpload = () => {
-    if (selectedFile) {
-      setSelectedFile(null);
+  const handleResponseImageClick = () => {
+    if(showOriginal) {
+      setSelectedImage(croppedImage);
+      setShowOriginal(false);
+    } else {
+      setSelectedImage(responseImage);
+      setShowOriginal(true);
     }
-  };
+    setPopUpOpen(true);
+  }
+
+
+const handleImageClick = () => {
+  setPopUpOpen(true);
+  setSelectedImage(croppedImage); // Assuming you have a state variable called 'selectedImage'
+};
 
   return (
     <div className="">
@@ -355,35 +375,39 @@ const FileUploader: React.FC<Props> = ({}) => {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => setPopUpOpen(!PopUpOpen)}
-        >Open popup</button>
+        >
+          Open popup
+        </button>
       </div>
 
-      {PopUpOpen == true ? (
-        <ImagePopUp onClose={() => setPopUpOpen(false)} />
-      ) : (
-        <div></div>
-      )
+      {PopUpOpen ? (
+  <ImagePopUp onClose={() => setPopUpOpen(false)} image={selectedImage} />
+) : (
+  <div></div>
+)}
 
-      }
 
       <input
         type="file"
         accept="image/png, image/jpeg"
         onChange={handleFileSelect}
       />
-      
+
       {selectedFile !== null ? (
         <div>
           {isLoading ? (
             <div>
               <div className="centerContainer">
                 <div className="upload">
-                  <NextImage
-                    src={croppedImage}
-                    alt="Uploaded file preview"
-                    width={512}
-                    height={512}
-                  />
+                  
+                    <NextImage
+                      src={croppedImage}
+                      onClick={handleImageClick}
+                      alt="Uploaded file preview"
+                      width={512}
+                      height={512}
+                    />
+                  
                 </div>
                 <div className="loading">
                   <div className="loadingAnimation">⏳</div>
@@ -407,14 +431,14 @@ const FileUploader: React.FC<Props> = ({}) => {
                   {/* TODO: Open popup with image in fullscreen */}
                   <NextImage
                     className="clickableImages"
-                    onClick={handleShowOriginalButton}
+                    onClick={handleResponseImageClick}
                     src={croppedImage}
                     alt="The original uplaod."
                     width={512}
                     height={512}
                   />
                   <h1>original image</h1>
-                  <button onClick={handleShowOriginalButton}>
+                  <button onClick={handleResponseImageClick}>
                     show {year}
                   </button>
                   <button onClick={handleBackButton}>back</button>
@@ -425,7 +449,7 @@ const FileUploader: React.FC<Props> = ({}) => {
                     {buffer ? (
                       <NextImage
                         className="clickableImages"
-                        onClick={handleShowOriginalButton}
+                        onClick={handleResponseImageClick}
                         src={`${buffer}`}
                         alt="cool"
                         width={512}
@@ -435,7 +459,7 @@ const FileUploader: React.FC<Props> = ({}) => {
                       <div>
                         <NextImage
                           className="clickableImages"
-                          onClick={handleShowOriginalButton}
+                          onClick={handleResponseImageClick}
                           src={`data:image/png;base64,${response}`}
                           alt="cool"
                           width={512}
@@ -457,6 +481,7 @@ const FileUploader: React.FC<Props> = ({}) => {
               <div>
                 <NextImage
                   src={croppedImage}
+                  onClick={handleImageClick}
                   alt="Uploaded file preview"
                   width={512}
                   height={512}

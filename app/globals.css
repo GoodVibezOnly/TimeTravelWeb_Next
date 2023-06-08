@@ -50,6 +50,14 @@ img {
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
 }
 
+.fullscreenImage {
+  height: 90vh;
+  width: 90vh;
+  background-color: rgba(255, 255, 255);
+  @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
+}
+
+
 .clickableImages {
   @apply cursor-pointer;
 }
@@ -84,13 +92,9 @@ img {
   /* blur */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  
+
   /* transition */
   transition: all 0.8s ease;
-
-
-
-
 }
 
 .upload {
