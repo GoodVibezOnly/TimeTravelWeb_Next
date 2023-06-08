@@ -45,8 +45,8 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 img {
-  height: 500px;
-  width: 500px;
+  height: 512px;
+  width: 512px;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
 }
 
@@ -68,12 +68,37 @@ img {
   @apply flex relative items-center ml-auto mr-auto;
 }
 
+.backdrop {
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* fullscreen */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* center content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* blur */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  /* transition */
+  transition: all 0.8s ease;
+
+
+
+
+}
+
 .upload {
   z-index: 0;
   position: absolute;
 
-  height: 500px;
-  width: 500px;
+  height: 512px;
+  width: 512px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,8 +108,8 @@ img {
 .loading {
   z-index: 10;
   position: absolute;
-  height: 500px;
-  width: 500px;
+  height: 512px;
+  width: 512px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,8 +138,8 @@ img {
 }
 
 .FileUploader {
-  height: 500px;
-  width: 500px;
+  height: 512px;
+  width: 512px;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl bg-gray-900 shadow-2xl;
 }
 
@@ -125,6 +150,6 @@ img {
 
 /* imput type range color green */
 input[type="range"] {
-  width: 500px;
+  width: 512px;
   @apply bg-green-600 m-4;
 }

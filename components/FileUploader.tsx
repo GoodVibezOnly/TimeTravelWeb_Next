@@ -6,6 +6,8 @@ import NextImage from "next/image";
 import ts from "typescript";
 import exifr from "exifr";
 import axios from "axios";
+import openai from 'openai';
+import ImagePopUp from "./ImagePopUp";
 
 interface Props {}
 
@@ -28,6 +30,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [gifResponse, setGifResponse] = useState<any>();
   const [buffer, setBuffer] = useState<any>();
   const [imageLocation, setImageLocation] = useState<any>();
+  const [PopUpOpen, setPopUpOpen] = useState<boolean>(false);
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -177,6 +180,7 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.log("END IMAGE INTERROGATION");
 
       console.log(clipPrompt);
+      
 
       /**
        * * Get prompt
@@ -225,6 +229,11 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.error(error);
     }
   };
+
+  // function to give text to gpt api
+  function GPT () {
+
+  }
 
   const handleClickGif = async () => {
     setIsLoading(true);
@@ -341,6 +350,22 @@ const FileUploader: React.FC<Props> = ({}) => {
 
   return (
     <div className="">
+      <div>
+        {/* button that opens setPopUpOpen */}
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => setPopUpOpen(!PopUpOpen)}
+        >Open popup</button>
+      </div>
+
+      {PopUpOpen == true ? (
+        <ImagePopUp onClose={() => setPopUpOpen(false)} />
+      ) : (
+        <div></div>
+      )
+
+      }
+
       <input
         type="file"
         accept="image/png, image/jpeg"

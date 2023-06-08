@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+
+
 const colors: string[] = [
   "multi-colored",
   "colorful",
