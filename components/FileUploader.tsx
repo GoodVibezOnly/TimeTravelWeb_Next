@@ -34,12 +34,8 @@ const FileUploader: React.FC<Props> = ({}) => {
     setIsProcessed(false);
     if (event.target.files) {
       const file = event.target.files[0];
-      if (
-        file.type !== 'image/png' &&
-        file.type !== 'image/jpeg' &&
-        file.type !== 'image/webp'
-      ) {
-        alert('Only PNG, JPEG, and WEBP files are allowed');
+      if (file.type !== "image/png" && file.type !== "image/jpeg") {
+        alert("Only PNG and JPEG files are allowed");
         return;
       }
   
