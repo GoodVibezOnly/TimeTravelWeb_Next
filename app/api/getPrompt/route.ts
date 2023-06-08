@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const colors: string[] = [
+  "multi-colored",
+  "colorful",
+  "color",
+  "colored",
+  "coloured",
+  "colorized",
+  "colour",
+  "colourized",
   "red",
   "green",
   "blue",
@@ -10,23 +18,23 @@ const colors: string[] = [
   "pink",
   "brown",
   "black",
-  "color",
-  "colorized",
+  "rainbow",
+
 ];
 
 function filterPrompt(prompt: string) {
-  for (let i = 0; i < colors.length; i++) {
-    const regex = new RegExp(colors[i] + "\\s*", "gi");
-    prompt = prompt.replace(regex, "");
-  }
+  const regex = new RegExp("\\b(" + colors.join("|") + ")\\b", "gi");
+  prompt = prompt.replace(regex, "");
   return prompt;
 }
 
-function getPrompt(year: string, clipPrompt: string) {
+function getPrompt(year: string, clipPrompt: string, location: string) {
   if (year >= "1900" && year < "1910") {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1900s photograph, Lumière Autochrome plates, old, black and white photography, analogue photography, film grain,"
     );
@@ -34,6 +42,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1910s photograph, Kodak No. 1 Autographic Special, black and white photography, film grain,"
     );
@@ -41,6 +51,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1920s photograph, Kodak Autographic, black and white photography, film grain,"
     );
@@ -48,6 +60,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1930s photograph, Kodak Kodachrome film, sepia photography, analogue photography, film grain, "
     );
@@ -55,6 +69,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1940s photograph, Kodak Tri-X, analogue photography, film grain,"
     );
@@ -62,6 +78,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1950s photograph, Kodak Ektachrome film, analogue photography, film grain,"
     );
@@ -69,6 +87,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1960s photograph, Kodak Kodachrome film, analogue photography, film grain,"
     );
@@ -76,6 +96,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1970s photograph, Fujifilm Velvia film, analogue photography, film grain,"
     );
@@ -83,6 +105,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1980s photograph, Kodak Ektachrome film, analogue photography, film grain,"
     );
@@ -90,6 +114,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", 1990s photograph, Fujifilm Superia film, analogue photography, film grain,"
     );
@@ -97,6 +123,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph, " +
+      location +
+      ", " +
       clipPrompt +
       ", early 2000s photograph, color photograph, Kodak Portra film, analogue photography, film grain,"
     );
@@ -105,6 +133,8 @@ function getPrompt(year: string, clipPrompt: string) {
       "Photograph taken in " +
       year.toString() +
       " modern color photograph,  " +
+      location +
+      ", " +
       clipPrompt +
       ", mid 2000s photograph, color photograph, Canon EOS 40D, Nikon digital photography,"
     );
@@ -113,6 +143,8 @@ function getPrompt(year: string, clipPrompt: string) {
       "Photograph taken in " +
       year.toString() +
       ", color photograph,  " +
+      location +
+      ", " +
       clipPrompt +
       ", 2010s photograph, DSLR, Canon EOS, beautiful, Flickr,"
     );
@@ -120,6 +152,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       "modern photograph,  " +
+      location +
+      ", " +
       clipPrompt +
       " 2020s photograph, smartphone, iPhone, Samsung Galaxy, Google Pixel, computational photography, AI, 4K,"
     );
@@ -127,6 +161,8 @@ function getPrompt(year: string, clipPrompt: string) {
     return (
       year.toString() +
       " photograph,  " +
+      location +
+      ", " +
       clipPrompt +
       ", photograph, professional, art"
     );
@@ -140,7 +176,7 @@ export async function POST(req: NextRequest) {
 
   const prompt = year <= "1950" ? filterPrompt(clipPrompt) : clipPrompt;
 
-  const promptText = getPrompt(year, prompt);
+  const promptText = getPrompt(year, prompt, data.location);
 
   return NextResponse.json({ promptText });
 }

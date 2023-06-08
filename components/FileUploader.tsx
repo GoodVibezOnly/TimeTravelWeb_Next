@@ -27,6 +27,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [status, setStatus] = useState<string>("");
   const [gifResponse, setGifResponse] = useState<any>();
   const [buffer, setBuffer] = useState<any>();
+  const [imageLocation, setImageLocation] = useState<any>();
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -38,10 +39,10 @@ const FileUploader: React.FC<Props> = ({}) => {
         alert("Only PNG and JPEG files are allowed");
         return;
       }
-  
+
       // Check file size (max 50MB)
       if (file.size > 50000000) {
-        alert('File size is too big');
+        alert("File size is too big");
         return;
       }
       try {
@@ -52,13 +53,14 @@ const FileUploader: React.FC<Props> = ({}) => {
             imageLocation.latitude,
             imageLocation.longitude
           );
+          setImageLocation(location);
         }
-  
+
         FileResizer.imageFileResizer(
           file,
           512,
           512,
-          file.type.split('/')[1],
+          file.type.split("/")[1],
           100,
           0,
           (uri) => {
@@ -66,28 +68,31 @@ const FileUploader: React.FC<Props> = ({}) => {
             setBase64Image(uri as string);
             setCroppedImage(uri as string);
           },
-          'base64'
+          "base64"
         );
       } catch (err) {
-        console.error('Something went wrong with the image resizer');
+        console.error("Something went wrong with the image resizer");
       }
     }
   };
-  
-  async function getCityAndCountry(latitude: number, longitude: number): Promise<string> {
+
+  async function getCityAndCountry(
+    latitude: number,
+    longitude: number
+  ): Promise<string> {
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
-  
+
     try {
       const response = await axios.get(url);
       const address = response.data.address;
       const country = address.country;
       const city = address.city || address.town || address.village;
-      return `${city}, ${country}`;
+      return `${country}, ${city}`;
     } catch (error) {
-      console.error('Error retrieving location information:', error);
+      console.error("Error retrieving location information:", error);
     }
-  
-    return '';
+
+    return "";
   }
 
   const handleBackButton = () => {
@@ -133,7 +138,11 @@ const FileUploader: React.FC<Props> = ({}) => {
       setStatus("Fetching prompt...");
       const fetchPrompt = await fetch("api/getPrompt", {
         method: "POST",
-        body: JSON.stringify({ year: year, clipPrompt: clipPrompt }),
+        body: JSON.stringify({
+          year: year,
+          clipPrompt: clipPrompt,
+          location: imageLocation,
+        }),
       });
       const promptResponse = await fetchPrompt.json();
       console.log(promptResponse.promptText);
