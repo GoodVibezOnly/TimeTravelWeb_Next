@@ -51,10 +51,60 @@ img {
 }
 
 .fullscreenImage {
-  height: 90vh;
-  width: 90vh;
-  background-color: rgba(255, 255, 255);
+  height: 85vh;
+  width: 85vh;
+  background-color: rgba(0, 0, 0);
+    pointer-events: none;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
+}
+
+.imageContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 98vh;
+}
+
+.imageWrapper {
+  position: relative;
+}
+.closeButtonContainer {
+  color: rgba(255, 255, 255, 0.5);
+  select: none;
+  position: absolute;
+  top: 0;
+  right: 0px;
+}
+.closeButtonContainer:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+
+.closeButton {
+
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+}
+
+.closeButton:hover {
+  scale: 125%;
+}
+.closeButton:active {
+  scale: 75%;
+}
+
+
+.closeSymbol {
+  font-size: 24px;
+  /* centered */
+  position: absolute;
+
+  transform: translate(-50%, -50%);
+  
 }
 
 

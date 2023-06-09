@@ -354,10 +354,10 @@ const FileUploader: React.FC<Props> = ({}) => {
   const handleResponseImageClick = () => {
     if(showOriginal) {
       setSelectedImage(croppedImage);
-      setShowOriginal(false);
+      // setShowOriginal(false);
     } else {
       setSelectedImage(responseImage);
-      setShowOriginal(true);
+      // setShowOriginal(true);
     }
     setPopUpOpen(true);
   }
