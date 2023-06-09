@@ -302,6 +302,7 @@ const FileUploader: React.FC<Props> = ({}) => {
         });
         const convertResponse = await fetchConvert.json();
         convertedImages.push(convertResponse.images[0]);
+        setSelectedImage(convertResponse.images[0]);
       }
       console.log("END IMAGE CONVERSION");
       setStatus("");
@@ -356,7 +357,8 @@ const FileUploader: React.FC<Props> = ({}) => {
       setSelectedImage(croppedImage);
       // setShowOriginal(false);
     } else {
-      setSelectedImage(responseImage);
+      // setSelectedImage(responseImage);
+      console.log(responseImage);
       // setShowOriginal(true);
     }
     setPopUpOpen(true);
@@ -438,7 +440,7 @@ const handleImageClick = () => {
                     height={512}
                   />
                   <h1>original image</h1>
-                  <button onClick={handleResponseImageClick}>
+                  <button onClick={handleShowOriginalButton}>
                     show {year}
                   </button>
                   <button onClick={handleBackButton}>back</button>

@@ -14,7 +14,12 @@ const ImagePopUp: React.FC<Props> = ({ onClose, image }) => {
   return (
     <div className="backdrop" onClick={handleClick}>
       <div className="imageContainer">
-        <Image src={image} alt="Full-screen image" className="fullscreenImage" width={512} height={512}/>
+          {/* check if image or if base64 */}
+          {image.includes("data:image") ? (
+            <img src={image} alt="Full-screen image" className="fullscreenImage" />
+          ) : (
+            <Image src={image} alt="Full-screen image" className="fullscreenImage" width={512} height={512}/>
+          )}
         <div className="closeButtonContainer">
           <button className="closeButton" onClick={handleClick}>
             <span className="closeSymbol">✕</span>
