@@ -3,9 +3,11 @@ import React, { useState, useEffect } from "react";
 interface Props {
   onClose: () => void;
   image: string;
+  year: number;
+  showOriginal: boolean;
 }
 
-const ImagePopUp: React.FC<Props> = ({ onClose, image }) => {
+const ImagePopUp: React.FC<Props> = ({ onClose, image, year, showOriginal }) => {
   const [showCloseButton, setShowCloseButton] = useState(false);
 
   useEffect(() => {
@@ -60,6 +62,12 @@ const ImagePopUp: React.FC<Props> = ({ onClose, image }) => {
               className="fullscreenImage"
               onClick={handleImageClick}
             />
+          )}
+
+          {showOriginal ? (
+            <div className="year">Original Image</div>
+          ) : (
+            <div className="year">{year}</div>
           )}
           {showCloseButton && <div className="topGradient" />}
         </div>

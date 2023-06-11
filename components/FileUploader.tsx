@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FileResizer from "react-image-file-resizer";
 import NextImage from "next/image";
 import ts from "typescript";
@@ -354,15 +354,37 @@ const FileUploader: React.FC<Props> = ({}) => {
   const handleResponseImageClick = () => {
     if (showOriginal) {
       setSelectedImage(croppedImage);
-      console.log("showing cropped image");
-      console.log(croppedImage);
+      
     } else {
       setSelectedImage(responseImage);
-      console.log("showing response image");
-      console.log(responseImage);
     }
     setPopUpOpen(true);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        if(PopUpOpen){
+          if(selectedImage === croppedImage){
+            setSelectedImage(responseImage);
+            setShowOriginal(false);
+        } else {
+          setSelectedImage(croppedImage);
+          setShowOriginal(true);
+        }
+        } else {
+      }
+    }
+
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [PopUpOpen, selectedImage, croppedImage, responseImage]);
+
   
 
 
@@ -373,18 +395,10 @@ const handleImageClick = () => {
 
   return (
     <div className="">
-      <div>
-        {/* button that opens setPopUpOpen */}
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setPopUpOpen(!PopUpOpen)}
-        >
-          Open popup
-        </button>
-      </div>
-
+      <h1>TimeTravel</h1>
+      <h2>Upload an image to see what it would look like in the past</h2>
       {PopUpOpen ? (
-  <ImagePopUp onClose={() => setPopUpOpen(false)} image={selectedImage} />
+  <ImagePopUp onClose={() => setPopUpOpen(false)} image={selectedImage} year={year} showOriginal={showOriginal}  />
 ) : (
   <div></div>
 )}
