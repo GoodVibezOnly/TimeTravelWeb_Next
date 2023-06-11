@@ -50,13 +50,8 @@ const ImagePopUp: React.FC<Props> = ({ onClose, image }) => {
               height={512}
               onClick={handleImageClick}
             />
-            {/* if showCloseButton true, show topGradient and black box */}
-            {showCloseButton && (
-              <>
-                <div className="topGradient" />
-                <div className="blackBox" />
-              </>
-            )}
+         
+            {showCloseButton && <div className="topGradient" />}
           </div>
         ) : (
           <div className="imageContainerWrapper">
@@ -68,13 +63,8 @@ const ImagePopUp: React.FC<Props> = ({ onClose, image }) => {
               height={512}
               onClick={handleImageClick}
             />
-            {/* if showCloseButton true, show topGradient and black box */}
-            {showCloseButton && (
-              <>
-                <div className="topGradient" />
-                <div className="blackBox" />
-              </>
-            )}
+
+            {showCloseButton && <div className="topGradient" />}
           </div>
         )}
         <div className={`closeButtonContainer ${showCloseButton ? "fadeIn" : ""}`}>
