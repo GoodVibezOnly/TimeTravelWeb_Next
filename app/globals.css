@@ -52,10 +52,10 @@ img {
 
 .fullscreenImage {
   height: 85vh;
-  width: 85vh;
+  width: auto;
   background-color: rgba(0, 0, 0);
 
-  @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
+  @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl;
 }
 
 .imageContainer {

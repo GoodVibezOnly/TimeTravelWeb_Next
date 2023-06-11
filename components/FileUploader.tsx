@@ -419,7 +419,7 @@ const handleImageClick = () => {
                   
                     <NextImage
                       src={croppedImage}
-                      onClick={handleImageClick}
+                      // onClick={handleImageClick}
                       alt="Uploaded file preview"
                       width={512}
                       height={512}
