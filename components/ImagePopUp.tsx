@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 
 interface Props {
   onClose: () => void;
@@ -28,6 +27,20 @@ const ImagePopUp: React.FC<Props> = ({ onClose, image }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
   const handleClick = () => {
     onClose();
   };
@@ -39,34 +52,18 @@ const ImagePopUp: React.FC<Props> = ({ onClose, image }) => {
   return (
     <div className="backdrop" onClick={handleClick}>
       <div className="imageContainer">
-        {/* check if image or if base64 */}
-        {image.includes("data:image") ? (
-          <div className="imageContainerWrapper">
-            <Image
+        <div className="imageContainerWrapper">
+          {image && (
+            <img
               src={image}
               alt="Full-screen image"
               className="fullscreenImage"
-              width={512}
-              height={512}
               onClick={handleImageClick}
             />
-         
-            {showCloseButton && <div className="topGradient" />}
-          </div>
-        ) : (
-          <div className="imageContainerWrapper">
-            <Image
-              src={image}
-              alt="Full-screen image"
-              className="fullscreenImage"
-              width={512}
-              height={512}
-              onClick={handleImageClick}
-            />
+          )}
+          {showCloseButton && <div className="topGradient" />}
+        </div>
 
-            {showCloseButton && <div className="topGradient" />}
-          </div>
-        )}
         <div className={`closeButtonContainer ${showCloseButton ? "fadeIn" : ""}`}>
           <button className="closeButton" onClick={handleClick}>
             <span className="closeSymbol">✕</span>

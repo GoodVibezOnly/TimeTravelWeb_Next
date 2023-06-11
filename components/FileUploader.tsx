@@ -219,8 +219,7 @@ const FileUploader: React.FC<Props> = ({}) => {
           }),
         });
         const convertResponse = await fetchConvert.json();
-        setResponse(convertResponse.images[0]);
-        setResponseImages(convertResponse.images);
+        setResponseImages(`data:image/png;base64,${convertResponse.images[0]}`);
         console.log("END IMAGE CONVERSION");
         setStatus("");
         setImageLocation("");
@@ -353,16 +352,18 @@ const FileUploader: React.FC<Props> = ({}) => {
   };
 
   const handleResponseImageClick = () => {
-    if(showOriginal) {
+    if (showOriginal) {
       setSelectedImage(croppedImage);
-      // setShowOriginal(false);
+      console.log("showing cropped image");
+      console.log(croppedImage);
     } else {
-      // setSelectedImage(responseImage);
+      setSelectedImage(responseImage);
+      console.log("showing response image");
       console.log(responseImage);
-      // setShowOriginal(true);
     }
     setPopUpOpen(true);
-  }
+  };
+  
 
 
 const handleImageClick = () => {
@@ -462,7 +463,7 @@ const handleImageClick = () => {
                         <NextImage
                           className="clickableImages"
                           onClick={handleResponseImageClick}
-                          src={`data:image/png;base64,${response}`}
+                          src={responseImage}
                           alt="cool"
                           width={512}
                           height={512}
