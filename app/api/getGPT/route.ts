@@ -8,13 +8,11 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export async function POST(req: NextRequest) {
-    const completion = await openai.createCompletion({
-      model:"text-davinci-003",
-      prompt: "what is 2+2: Only write the result",
-    });
-    
-
-  console.log(completion.data.choices[0].text);
+  const data = await req.json();
+  const completion = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: data.prompt,
+  });
 
   return NextResponse.json({ promptText: completion.data.choices[0].text });
 }

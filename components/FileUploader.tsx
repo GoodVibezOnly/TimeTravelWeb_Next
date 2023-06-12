@@ -246,7 +246,14 @@ const FileUploader: React.FC<Props> = ({}) => {
   const handleGPT = async () => {
     const fetchGPT = await fetch("api/getGPT", {
       method: "POST",
+      body: JSON.stringify({
+        // prompt should be what is 2+2 
+        prompt: "What is 2+2: Just answer with the number without any other text.",
+      }),
     });
+
+    const gptResponse = await fetchGPT.json();
+    console.log(gptResponse.promptText);
   };
 
 
