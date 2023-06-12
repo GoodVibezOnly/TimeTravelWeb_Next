@@ -8,6 +8,12 @@ import exifr from "exifr";
 import axios from "axios";
 import openai from "openai";
 import ImagePopUp from "./ImagePopUp";
+import { Configuration, OpenAIApi } from "openai";
+const configuration = new Configuration({
+  // organization: "org-sfL48U1zWaazJ2vvo9XQsJVu",
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
 
 interface Props {}
 
@@ -236,8 +242,13 @@ const FileUploader: React.FC<Props> = ({}) => {
     }
   };
 
-  // function to give text to gpt api
-  function GPT() {}
+  // function to use getGPT.ts
+  const handleGPT = async () => {
+    const fetchGPT = await fetch("api/getGPT", {
+      method: "POST",
+    });
+  };
+
 
   const handleClickGif = async () => {
     setIsLoading(true);
@@ -397,6 +408,7 @@ const handleImageClick = () => {
     <div className="">
       <h1>TimeTravel</h1>
       <h2>Upload an image to see what it would look like in the past</h2>
+      <button onClick={handleGPT}>GPT</button>
       {PopUpOpen ? (
   <ImagePopUp onClose={() => setPopUpOpen(false)} image={selectedImage} year={year} showOriginal={showOriginal}  />
 ) : (
