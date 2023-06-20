@@ -10,7 +10,6 @@ import openai from "openai";
 import ImagePopUp from "./ImagePopUp";
 import { Configuration, OpenAIApi } from "openai";
 const configuration = new Configuration({
-  // organization: "org-sfL48U1zWaazJ2vvo9XQsJVu",
   apiKey: process.env.OPENAI_API_KEY,
 });
 
@@ -248,7 +247,8 @@ const FileUploader: React.FC<Props> = ({}) => {
       method: "POST",
       body: JSON.stringify({
         // prompt should be what is 2+2 
-        prompt: "What is 2+2: Just answer with the number without any other text.",
+        year: year,
+        promptText: "Lemons, Frogs, Cats, Dogs, Smartphones, Computers, Monitors",
       }),
     });
 
@@ -408,7 +408,7 @@ const FileUploader: React.FC<Props> = ({}) => {
 
 const handleImageClick = () => {
   setPopUpOpen(true);
-  setSelectedImage(croppedImage); // Assuming you have a state variable called 'selectedImage'
+  setSelectedImage(croppedImage); 
 };
 
   return (

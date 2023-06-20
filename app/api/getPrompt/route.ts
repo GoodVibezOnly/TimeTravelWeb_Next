@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-
-
 const colors: string[] = [
   "multi-colored",
   "colorful",
@@ -37,7 +35,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
       location +
       ", " +
       clipPrompt +
-      ", 1900s photograph, Lumière Autochrome plates, old, black and white photography, analogue photography, film grain,"
+      ", 1900s photograph, , early black and white photography, gelatin silver print, film grain"
     );
   } else if (year >= "1910" && year < "1920") {
     return (
@@ -100,7 +98,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
       location +
       ", " +
       clipPrompt +
-      ", 1970s photograph, Fujifilm Velvia film, analogue photography, film grain,"
+      ", 1970s photograph, Kodak Ektachrome film, analogue photography, film grain,"
     );
   } else if (year >= "1980" && year < "1990") {
     return (
