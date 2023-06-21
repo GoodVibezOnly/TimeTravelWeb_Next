@@ -167,6 +167,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   };
 
   const handleClick = async () => {
+    console.log(negativePrompt);
     setIsLoading(true);
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile as Blob);
@@ -193,6 +194,32 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.log(clipPrompt);
 
       /**
+       * * Handle GPT Prompt Response
+       */
+      console.log("START GPT VERIFICATION");
+      setStatus("veryfying prompt...");
+      const fetchGPT = await fetch("api/getGPT", {
+        method: "POST",
+        body: JSON.stringify({
+          year: year,
+          promptText: clipPrompt,
+        }),
+      });
+
+      console.log("GPT Request Successful");
+      const gptResponse = await fetchGPT.json();
+      if (gptResponse.promptText.startsWith("No")) {
+        console.log(
+          "Everything existed in the prompt: No need for modification"
+        );
+      } else {
+        console.log("Prompt needs to be modified");
+        console.log("The Following Things did not exist in " + year + ":");
+      }
+      console.log("END GPT VERIFICATION");
+      console.log("This is the gpt response:");
+      console.log(gptResponse.promptText);
+      /**
        * * Get prompt
        */
       console.log("START PROMPT FETCH");
@@ -210,28 +237,38 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.log("END PROMPT FETCH");
 
       /**
+       * * Get negative prompt
+       */
+      console.log("START NEGATIVE PROMPT FETCH");
+      setStatus("Fetching negative prompt...");
+
+      const fetchNegativePrompt = await fetch("api/getNegativePrompt", {
+        method: "POST",
+        body: JSON.stringify({
+          year: year,
+          gptPrompt: gptResponse.promptText,
+        }),
+      });
+      const negativePromptResponse = await fetchNegativePrompt.json();
+      console.log(negativePromptResponse);
+      console.log("END NEGATIVE PROMPT FETCH");
+
+      /**
        * * Convert image
        */
       setStatus("Converting image...");
       console.log("START IMAGE CONVERSION");
-      if (year <= 1950) {
-        setNegativePrompt(
-          "colors, "
-        );
-      } else {
-        setNegativePrompt(
-          "black and white photography, sepia,"
-        );
-      }
+
       try {
         const fetchConvert = await fetch("api/convertImage", {
           method: "POST",
           body: JSON.stringify({
             prompt: promptResponse.promptText,
-            negativePrompt: negativePrompt,
+            negativePrompt: negativePromptResponse,
             image: base64Image,
           }),
         });
+        console.log("current negatives" + negativePrompt);
         const convertResponse = await fetchConvert.json();
         setResponseImages(`data:image/png;base64,${convertResponse.images[0]}`);
         console.log("END IMAGE CONVERSION");
@@ -239,6 +276,7 @@ const FileUploader: React.FC<Props> = ({}) => {
         setImageLocation("");
         setIsLoading(false);
         setIsProcessed(true);
+        setNegativePrompt("");
       } catch (error) {
         console.error(error);
         setImageLocation("");
@@ -255,7 +293,6 @@ const FileUploader: React.FC<Props> = ({}) => {
     const fetchGPT = await fetch("api/getGPT", {
       method: "POST",
       body: JSON.stringify({
-        // prompt should be what is 2+2
         year: year,
         promptText: "Lemons, Frogs, Cats, Dogs, Smartphone, Laptop,",
       }),
@@ -354,6 +391,10 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    console.log(negativePrompt);
+  }, [negativePrompt]);
 
   const generateGif = async (images: any[]) => {
     //@ts-expect-error

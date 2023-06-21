@@ -21,7 +21,8 @@ export async function POST(req: NextRequest) {
   const { year, promptText } = data;
 
   const completion = await openai.createChatCompletion({
-    model: "gpt-4",
+    // model: "gpt-4",
+    model: "gpt-3.5-turbo",
     max_tokens: 10,
     messages: [
       {
