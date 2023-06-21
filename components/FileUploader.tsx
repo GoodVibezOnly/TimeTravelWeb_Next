@@ -36,6 +36,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [imageLocation, setImageLocation] = useState<any>();
   const [PopUpOpen, setPopUpOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [negativePrompt, setNegativePrompt] = useState<string>("");
 
   const [responseImage, setResponseImages] = useState<string>("");
   const [originalImage, setOriginalImage] = useState<string>("");
@@ -213,11 +214,21 @@ const FileUploader: React.FC<Props> = ({}) => {
        */
       setStatus("Converting image...");
       console.log("START IMAGE CONVERSION");
+      if (year <= 1950) {
+        setNegativePrompt(
+          "colors, "
+        );
+      } else {
+        setNegativePrompt(
+          "black and white photography, sepia,"
+        );
+      }
       try {
         const fetchConvert = await fetch("api/convertImage", {
           method: "POST",
           body: JSON.stringify({
             prompt: promptResponse.promptText,
+            negativePrompt: negativePrompt,
             image: base64Image,
           }),
         });
