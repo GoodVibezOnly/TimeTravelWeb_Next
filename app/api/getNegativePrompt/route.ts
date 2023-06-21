@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 function getNegativePrompt(year: number, gptPrompt: string) {
   let promptText = "";
   let olderPhotoNegativePrompt =
-    " ,colors, color photography, color film, colours, colorful, colorized, color photo, red, green, blue, yellow, orange, purple, pink, brown, black, rainbow,";
+    " ,colors, color photography, color film, colours, colorful, colorized,";
   let newerPhotoNegativePrompt =
-    " ,lack and white, black and white photography, sepia, monochrome,";
+    " ,black and white, black and white photography, sepia, monochrome,";
 
   if (gptPrompt != "" && gptPrompt != null && gptPrompt != "No") {
     promptText = gptPrompt;
@@ -16,7 +16,7 @@ function getNegativePrompt(year: number, gptPrompt: string) {
     promptText += newerPhotoNegativePrompt;
   }
 
-  return promptText; // Return the prompt text
+  return promptText; 
 }
 
 export async function POST(req: NextRequest) {

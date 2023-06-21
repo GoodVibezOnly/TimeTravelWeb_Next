@@ -237,6 +237,22 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.log("END PROMPT FETCH");
 
       /**
+       * * Remove words from gpt response from promptResponse.promptText
+       */
+
+      console.log("START GPT PROMPT MODIFICATION");
+      setStatus("Modifying prompt...");
+      const gptWords = gptResponse.promptText.split(/[,\s]+/);
+      let modifiedPrompt = promptResponse.promptText;
+      for (let i = 0; i < gptWords.length; i++) {
+        const regex = new RegExp(gptWords[i], "g");
+        modifiedPrompt = modifiedPrompt.replace(regex, "");
+      }
+      console.log("END GPT PROMPT MODIFICATION");
+      
+      console.log("Modified GPT Prompt Text:");
+      
+      /**
        * * Get negative prompt
        */
       console.log("START NEGATIVE PROMPT FETCH");
@@ -263,7 +279,7 @@ const FileUploader: React.FC<Props> = ({}) => {
         const fetchConvert = await fetch("api/convertImage", {
           method: "POST",
           body: JSON.stringify({
-            prompt: promptResponse.promptText,
+            prompt: modifiedPrompt,
             negativePrompt: negativePromptResponse,
             image: base64Image,
           }),

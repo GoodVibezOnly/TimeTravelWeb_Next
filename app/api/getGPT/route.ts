@@ -21,8 +21,8 @@ export async function POST(req: NextRequest) {
   const { year, promptText } = data;
 
   const completion = await openai.createChatCompletion({
-    // model: "gpt-4",
-    model: "gpt-3.5-turbo",
+    model: "gpt-4",
+    // model: "gpt-3.5-turbo",
     max_tokens: 10,
     messages: [
       {
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
           year +
           ": '" +
           promptText +
-          " ' Separate multiple items with a comma. If all items existed, respond with 'No'",
+          " ' Separate multiple items with a comma: And only the name of the item how it is written in the text without an 'a '. If all items existed, respond with 'No'",
       },
     ],
     temperature: 0,
