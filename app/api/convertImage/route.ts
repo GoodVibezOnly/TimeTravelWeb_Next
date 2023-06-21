@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       negatives:
         negativePrompt +
         "painting, render, overexposed, distorted face, Overexposed, render, lowquality, deformed bodys, text, distorted face, picture frame, oversaturated, distorted, writing, border, multiple images, blurry, watermark, unrealistic, lowresolution, lowquality, lowcontrast, pixelated, unnatural, artefact, moiré, motion blur, compression artefacts",
-      steps: 25,
+      steps: 35,
       height: 512,
       width: 512,
       sampler_index: "Euler a",
@@ -32,8 +32,8 @@ export async function POST(req: NextRequest) {
               model: "control_v11p_sd15_canny [d14c016b]",
               weight: 0.7,
               lowvram: false,
-              // threshold_a: 100,
-              // threshold_b: 200,
+              threshold_a: 100,
+              threshold_b: 200,
             },
           ],
         },

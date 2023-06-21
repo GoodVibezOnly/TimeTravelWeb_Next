@@ -304,34 +304,7 @@ const FileUploader: React.FC<Props> = ({}) => {
     }
   };
 
-  // function to use getGPT.ts
-  const handleGPT = async () => {
-    const fetchGPT = await fetch("api/getGPT", {
-      method: "POST",
-      body: JSON.stringify({
-        year: year,
-        promptText: "Lemons, Frogs, Cats, Dogs, Smartphone, Laptop,",
-      }),
-    });
 
-    if (!fetchGPT.ok) {
-      console.log("GPT Error: Did you enter a Valid GPT Key?");
-      throw new Error(`HTTP error! status: ${fetchGPT.status}`);
-    } else {
-      console.log("GPT is ok");
-      const gptResponse = await fetchGPT.json();
-      if (gptResponse.promptText.startsWith("No ")) {
-        console.log(
-          "Everything existed in the prompt: No need for modification"
-        );
-      } else {
-        console.log("Prompt needs to be modified");
-        let promptArray = gptResponse.promptText.split(",");
-        console.log("The Following Things did not exist in " + year + ":");
-        console.log(promptArray);
-      }
-    }
-  };
 
   const handleClickGif = async () => {
     setIsLoading(true);
@@ -491,7 +464,6 @@ const FileUploader: React.FC<Props> = ({}) => {
     <div className="">
       <h1>TimeTravel</h1>
       <h2>Upload an image to see what it would look like in the past</h2>
-      <button onClick={handleGPT}>GPT</button>
       {PopUpOpen ? (
         <ImagePopUp
           onClose={() => setPopUpOpen(false)}
