@@ -13,7 +13,6 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-
 interface Props {}
 
 interface Response {
@@ -40,7 +39,6 @@ const FileUploader: React.FC<Props> = ({}) => {
 
   const [responseImage, setResponseImages] = useState<string>("");
   const [originalImage, setOriginalImage] = useState<string>("");
-
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -246,16 +244,30 @@ const FileUploader: React.FC<Props> = ({}) => {
     const fetchGPT = await fetch("api/getGPT", {
       method: "POST",
       body: JSON.stringify({
-        // prompt should be what is 2+2 
+        // prompt should be what is 2+2
         year: year,
-        promptText: "Lemons, Frogs, Cats, Dogs, Smartphones, Computers, Monitors",
+        promptText: "Lemons, Frogs, Cats, Dogs, Smartphone, Laptop,",
       }),
     });
 
-    const gptResponse = await fetchGPT.json();
-    console.log(gptResponse.promptText);
+    if (!fetchGPT.ok) {
+      console.log("GPT Error: Did you enter a Valid GPT Key?");
+      throw new Error(`HTTP error! status: ${fetchGPT.status}`);
+    } else {
+      console.log("GPT is ok");
+      const gptResponse = await fetchGPT.json();
+      if (gptResponse.promptText.startsWith("No ")) {
+        console.log(
+          "Everything existed in the prompt: No need for modification"
+        );
+      } else {
+        console.log("Prompt needs to be modified");
+        let promptArray = gptResponse.promptText.split(",");
+        console.log("The Following Things did not exist in " + year + ":");
+        console.log(promptArray);
+      }
+    }
   };
-
 
   const handleClickGif = async () => {
     setIsLoading(true);
@@ -372,7 +384,6 @@ const FileUploader: React.FC<Props> = ({}) => {
   const handleResponseImageClick = () => {
     if (showOriginal) {
       setSelectedImage(croppedImage);
-      
     } else {
       setSelectedImage(responseImage);
     }
@@ -382,18 +393,18 @@ const FileUploader: React.FC<Props> = ({}) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-        if(PopUpOpen){
-          if(selectedImage === croppedImage){
+        if (PopUpOpen) {
+          if (selectedImage === croppedImage) {
             setSelectedImage(responseImage);
             setShowOriginal(false);
+          } else {
+            setSelectedImage(croppedImage);
+            setShowOriginal(true);
+          }
         } else {
-          setSelectedImage(croppedImage);
           setShowOriginal(true);
         }
-        } else {
       }
-    }
-
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -403,13 +414,10 @@ const FileUploader: React.FC<Props> = ({}) => {
     };
   }, [PopUpOpen, selectedImage, croppedImage, responseImage]);
 
-  
-
-
-const handleImageClick = () => {
-  setPopUpOpen(true);
-  setSelectedImage(croppedImage); 
-};
+  const handleImageClick = () => {
+    setPopUpOpen(true);
+    setSelectedImage(croppedImage);
+  };
 
   return (
     <div className="">
@@ -417,11 +425,15 @@ const handleImageClick = () => {
       <h2>Upload an image to see what it would look like in the past</h2>
       <button onClick={handleGPT}>GPT</button>
       {PopUpOpen ? (
-  <ImagePopUp onClose={() => setPopUpOpen(false)} image={selectedImage} year={year} showOriginal={showOriginal}  />
-) : (
-  <div></div>
-)}
-
+        <ImagePopUp
+          onClose={() => setPopUpOpen(false)}
+          image={selectedImage}
+          year={year}
+          showOriginal={showOriginal}
+        />
+      ) : (
+        <div></div>
+      )}
 
       <input
         type="file"
@@ -435,15 +447,13 @@ const handleImageClick = () => {
             <div>
               <div className="centerContainer">
                 <div className="upload">
-                  
-                    <NextImage
-                      src={croppedImage}
-                      // onClick={handleImageClick}
-                      alt="Uploaded file preview"
-                      width={512}
-                      height={512}
-                    />
-                  
+                  <NextImage
+                    src={croppedImage}
+                    // onClick={handleImageClick}
+                    alt="Uploaded file preview"
+                    width={512}
+                    height={512}
+                  />
                 </div>
                 <div className="loading">
                   <div className="loadingAnimation">⏳</div>

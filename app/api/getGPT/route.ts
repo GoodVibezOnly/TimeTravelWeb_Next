@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Configuration, OpenAIApi, ChatCompletionRequestMessageRoleEnum } from "openai";
+import {
+  Configuration,
+  OpenAIApi,
+  ChatCompletionRequestMessageRoleEnum,
+} from "openai";
 
 interface PromptResponse {
   year: string;
@@ -17,16 +21,23 @@ export async function POST(req: NextRequest) {
   const { year, promptText } = data;
 
   const completion = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
+    model: "gpt-4",
     max_tokens: 10,
     messages: [
       {
         role: ChatCompletionRequestMessageRoleEnum.System,
-        content: "Please list any of the following items that did not exist in " + year + ": '" + promptText + " ' Separate multiple items with a comma. If all items existed, respond with 'No'",
+        content:
+          "Please list any of the following items that did not exist in " +
+          year +
+          ": '" +
+          promptText +
+          " ' Separate multiple items with a comma. If all items existed, respond with 'No'",
       },
     ],
     temperature: 0,
   });
 
-  return NextResponse.json({ promptText: completion.data.choices[0].message?.content });
+  return NextResponse.json({
+    promptText: completion.data.choices[0].message?.content,
+  });
 }
