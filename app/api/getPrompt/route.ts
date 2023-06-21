@@ -28,7 +28,25 @@ function filterPrompt(prompt: string) {
 }
 
 function getPrompt(year: string, clipPrompt: string, location: string) {
-  if (year >= "1900" && year < "1910") {
+  if (year >= "1880" && year < "1890") {
+    return (
+      year.toString() +
+      " photograph, " +
+      location +
+      ", " +
+      clipPrompt +
+      ", 1880s photograph, Eastman Dry Plate, early black and white photography, silver gelatin process, film grain"
+    );
+  } else if (year >= "1890" && year < "1900") {
+    return (
+      year.toString() +
+      " photograph, " +
+      location +
+      ", " +
+      clipPrompt +
+      ", 1890s photograph, Kodak Box Camera, black and white photography, film grain,"
+    );
+  } else if (year >= "1900" && year < "1910") {
     return (
       year.toString() +
       " photograph, " +
@@ -154,7 +172,7 @@ function getPrompt(year: string, clipPrompt: string, location: string) {
       location +
       ", " +
       clipPrompt +
-      " 2020s photograph, smartphone, iPhone, Samsung Galaxy, Google Pixel, computational photography, AI, 4K,"
+      " 2020s photograph, DSLR, mirrorless cameras, smartphone photography, high-resolution images, AI, 4K, Wallpaper, Flickr, Professional, beautiful,"
     );
   } else {
     return (

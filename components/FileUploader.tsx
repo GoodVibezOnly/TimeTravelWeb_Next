@@ -301,7 +301,7 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.log("START PROMPT FETCH");
       setStatus("Fetching prompt...");
 
-      for (let i = 1900; i <= 2020; i = i + 5) {
+      for (let i = 1880; i <= 2020; i = i + 5) {
         const fetchPrompt = await fetch("api/getPrompt", {
           method: "POST",
           body: JSON.stringify({
@@ -551,7 +551,7 @@ const FileUploader: React.FC<Props> = ({}) => {
                     <input
                       type="range"
                       className="RangeInputField"
-                      min="1900"
+                      min="1880"
                       max="2013"
                       value={year}
                       onChange={(e) => setYear(parseInt(e.target.value))}
