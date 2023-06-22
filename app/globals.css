@@ -6,6 +6,14 @@ body {
   @apply bg-gray-800 text-center align-middle text-gray-200 mx-auto
   bg-center flex-auto justify-center;
 }
+.headline {
+  @apply mt-8 text-5xl font-bold uppercase;
+
+  @media (orientation: portrait) {
+    font-size: 8vw;
+
+  }
+}
 
 h1 {
   @apply mt-4 text-4xl font-bold uppercase;
@@ -45,12 +53,12 @@ input[type="file"] {
 
 /* button of input type file */
 input[type="file"]::-webkit-file-upload-button {
-  @apply border text-white font-bold py-4 px-4  m-4 duration-200 ease-in-out rounded-2xl bg-gray-800 uppercase border-spacing-0 border-white outline-red-200 hover:scale-105 active:scale-95;
+  @apply border text-white font-bold py-2 px-2  m-2 duration-200 ease-in-out rounded-2xl bg-gray-800 uppercase border-spacing-0 border-white outline-red-200 hover:scale-105 active:scale-95;
 }
 
 img {
-  height: 60vh;
-  width: 60vh;
+  height: 55vh;
+  width: 55vh;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
 
   @media (orientation: portrait) {
@@ -168,8 +176,8 @@ img {
 .upload {
   position: relative; 
   margin-top: 20px;
-  height: 60vh;
-  width: 60vh;
+  height: 50vh;
+  width: 50vh;
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -186,8 +194,8 @@ img {
 .loading {
   position: absolute;
   z-index: 40;
-  height: 60vh;
-  width: 60vh;
+  height: 50vh;
+  width: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -221,18 +229,18 @@ img {
 }
 
 .FileUploader {
-  height: 60vh;
-  width: 60vh;
+  height: 50vh;
+  width: 50vh;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl bg-gray-900 shadow-2xl;
 
   
 }
 
 .startButton {
-  @apply p-4 w-1/6;
+  @apply p-3 w-1/6;
 
   @media (orientation: portrait) {
-    padding: 6px;
+    padding: 3px;
     width: 50%;
 
   }
@@ -249,3 +257,5 @@ input[type="range"] {
     width: 85vw;
   }
 }
+
+

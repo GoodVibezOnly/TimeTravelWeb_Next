@@ -460,8 +460,6 @@ const FileUploader: React.FC<Props> = ({}) => {
 
   return (
     <div className="">
-      {/* <h1>image TimeTravel</h1>
-      <h2>Upload an image to see what it would look like in the past</h2> */}
       {PopUpOpen ? (
         <ImagePopUp
           onClose={() => setPopUpOpen(false)}
