@@ -456,13 +456,13 @@ const FileUploader: React.FC<Props> = ({}) => {
   }, [PopUpOpen, selectedImage, croppedImage, responseImage]);
 
   const handleImageClick = () => {
-    setPopUpOpen(true);
+    // setPopUpOpen(true);
     setSelectedImage(croppedImage);
   };
 
   return (
     <div className="">
-      <h1>TimeTravel</h1>
+      <h1>image TimeTravel</h1>
       <h2>Upload an image to see what it would look like in the past</h2>
       {PopUpOpen ? (
         <ImagePopUp
@@ -489,7 +489,6 @@ const FileUploader: React.FC<Props> = ({}) => {
                 <div className="upload">
                   <NextImage
                     src={croppedImage}
-                    // onClick={handleImageClick}
                     alt="Uploaded file preview"
                     width={512}
                     height={512}
@@ -597,14 +596,16 @@ const FileUploader: React.FC<Props> = ({}) => {
                       onChange={(e) => setYear(parseInt(e.target.value))}
                     />
                   </div>
-                  <div>
+
+                  <div className="twoButtons">
                     <button className="startButton" onClick={handleClick}>
                       Lets Go
                     </button>
-                  </div>
+                  
                   <button className="startButton" onClick={handleClickGif}>
                     Lets Gif
                   </button>
+                  </div>
                 </div>
               )}
             </div>

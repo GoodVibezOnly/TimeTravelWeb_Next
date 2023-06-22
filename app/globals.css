@@ -8,10 +8,10 @@ body {
 }
 
 h1 {
-  @apply mt-4 text-4xl font-bold uppercase;
+  @apply mt-0 text-4xl font-bold uppercase;
 }
 h2 {
-  @apply mt-4 font-thin text-2xl uppercase z-30;
+  @apply mt-2 font-thin text-2xl uppercase z-30;
 }
 .h1Error {
   @apply mt-4 text-4xl font-bold uppercase text-red-500;
@@ -35,6 +35,10 @@ button:active {
   @apply bg-gray-900 scale-95;
 }
 
+.twoButtons {
+  @apply flex justify-center;
+}
+
 input[type="file"] {
   @apply m-4  bg-gray-800 border border-cyan-800 border-dashed border-spacing-5 rounded-2xl shadow-2xl duration-200;
 }
@@ -48,15 +52,28 @@ img {
   height: 512px;
   width: 512px;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
+
+  @media (orientation: portrait) {
+    height: 512px;
+    width: 512px;
+  }
 }
 
 .fullscreenImage {
-  height: 85vh;
-  width: auto;
   background-color: rgba(0, 0, 0);
-
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl;
+
+  /* Landscape styles */
+  height: 85vh;
+  width: 85vh;
+
+  /* Portrait styles */
+  @media (orientation: portrait) {
+    height: 98vw;
+    width: 98vw;
+  }
 }
+
 
 .imageContainer {
   position: relative;
@@ -201,8 +218,7 @@ img {
 }
 
 .startButton {
-  width: 300px;
-  @apply border text-white font-bold py-4 px-4 m-0 duration-200 ease-in-out rounded-2xl bg-blue-600 uppercase border-none shadow-2xl;
+  @apply p-4 w-1/4;
 }
 
 /* imput type range color green */
