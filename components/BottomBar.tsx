@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import TextPopUp from './TextPopUp';
 
 interface BottomBarProps {
+    onClose: () => void;
   version: string;
 }
 
-const BottomBar: React.FC<BottomBarProps> = ({ version }) => {
+const BottomBar: React.FC<BottomBarProps> = ({ onClose, version }) => {
 
   return (
     <div>

@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import FileResizer from "react-image-file-resizer";
+import BottomBar from "./BottomBar";
 import NextImage from "next/image";
 import ts from "typescript";
 import exifr from "exifr";
 import axios from "axios";
 import openai from "openai";
 import ImagePopUp from "./ImagePopUp";
+import TextPopUp from "./TextPopUp";
 import { Configuration, OpenAIApi } from "openai";
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -37,6 +39,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [PopUpOpen, setPopUpOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [negativePrompt, setNegativePrompt] = useState<string>("");
+  const [creditsPopUpOpen, setCreditsPopUpOpen] = useState<boolean>(false);
 
   const [responseImage, setResponseImages] = useState<string>("");
   const [originalImage, setOriginalImage] = useState<string>("");
@@ -379,6 +382,14 @@ const FileUploader: React.FC<Props> = ({}) => {
     }
   };
 
+  function handlesetCreditsPopUpOpen()
+  {
+    setCreditsPopUpOpen(true);
+  }
+  const handleClose = () => {
+    setCreditsPopUpOpen(false);
+  };
+
   useEffect(() => {
     console.log(negativePrompt);
   }, [negativePrompt]);
@@ -432,16 +443,20 @@ const FileUploader: React.FC<Props> = ({}) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        
         if (PopUpOpen) {
           if (selectedImage === croppedImage) {
             setSelectedImage(responseImage);
             setShowOriginal(false);
+
           } else {
             setSelectedImage(croppedImage);
             setShowOriginal(true);
+
           }
         } else {
           setShowOriginal(true);
+
         }
       }
     };
@@ -452,6 +467,24 @@ const FileUploader: React.FC<Props> = ({}) => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [PopUpOpen, selectedImage, croppedImage, responseImage]);
+
+  // if esc key is pressed close TextPopUp
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setPopUpOpen(false);
+        handleClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }
+  , [PopUpOpen]);
+
 
   const handleImageClick = () => {
     // setPopUpOpen(true);
@@ -628,8 +661,16 @@ const FileUploader: React.FC<Props> = ({}) => {
           <div className="upload">Please Upload an Image</div>
         </div>
       )}
+         <div>
+      <button onClick={() => setCreditsPopUpOpen(true)}>Credits</button>
+      {creditsPopUpOpen ? <TextPopUp onClose={handleClose} /> : null}
     </div>
+      
+
+    </div>
+
   );
+
 };
 
 export default FileUploader;

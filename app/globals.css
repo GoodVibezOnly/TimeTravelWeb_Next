@@ -261,11 +261,12 @@ input[type="range"] {
 
 
 .popUpWrapperBackground {
-  @apply duration-200 ease-in-out bg-gray-900 rounded-xl shadow-2xl p-20;
+  @apply duration-200 ease-in-out bg-gray-900 rounded-xl shadow-2xl p-20 pointer-events-none;
   position: relative; /* Add position relative to make positioning relative to this element */
 }
 
 .popUpWrapper {
+  pointer-events: none;
 
 }
 .closePopUpButton {

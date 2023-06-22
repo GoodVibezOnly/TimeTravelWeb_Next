@@ -6,9 +6,9 @@ import TopNavigationBar from "@/components/TopNaviationBar";
 export default function Home() {
   return (
     <main>
-      <TopNavigationBar />
+      <TopNavigationBar></TopNavigationBar>
       <FileUploader />
-      <BottomBar version=" 0.8.1" />
+      
     </main>
   );
 }
