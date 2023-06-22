@@ -259,3 +259,35 @@ input[type="range"] {
 }
 
 
+
+.popUpWrapperBackground {
+  @apply duration-200 ease-in-out bg-gray-900 rounded-xl shadow-2xl p-20;
+  position: relative; /* Add position relative to make positioning relative to this element */
+}
+
+.popUpWrapper {
+
+}
+.closePopUpButton {
+  @apply duration-200 ease-in-out;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  border-radius: 100%;
+  background-color: rgba(255, 0, 0, 0);
+  border: none;
+}
+
+
+.creditItem {
+  @apply duration-200 ease-in-out hover:text-amber-500;
+}
+
+.creditItem:hover {
+  scale: 110%;
+}
+
+
+
+
+
