@@ -249,9 +249,9 @@ const FileUploader: React.FC<Props> = ({}) => {
         modifiedPrompt = modifiedPrompt.replace(regex, "");
       }
       console.log("END GPT PROMPT MODIFICATION");
-      
+
       console.log("Modified GPT Prompt Text:");
-      
+
       /**
        * * Get negative prompt
        */
@@ -303,8 +303,6 @@ const FileUploader: React.FC<Props> = ({}) => {
       console.error(error);
     }
   };
-
-
 
   const handleClickGif = async () => {
     setIsLoading(true);
@@ -462,8 +460,8 @@ const FileUploader: React.FC<Props> = ({}) => {
 
   return (
     <div className="">
-      <h1>image TimeTravel</h1>
-      <h2>Upload an image to see what it would look like in the past</h2>
+      {/* <h1>image TimeTravel</h1>
+      <h2>Upload an image to see what it would look like in the past</h2> */}
       {PopUpOpen ? (
         <ImagePopUp
           onClose={() => setPopUpOpen(false)}
@@ -493,9 +491,9 @@ const FileUploader: React.FC<Props> = ({}) => {
                     width={512}
                     height={512}
                   />
-                </div>
-                <div className="loading">
-                  <div className="loadingAnimation">⏳</div>
+                  <div className="loading">
+                    <div className="loadingAnimation">⏳</div>
+                  </div>
                 </div>
               </div>
               <div className="text">
@@ -513,7 +511,6 @@ const FileUploader: React.FC<Props> = ({}) => {
             <div>
               {showOriginal ? (
                 <div>
-                  {/* TODO: Open popup with image in fullscreen */}
                   <NextImage
                     className="clickableImages"
                     onClick={handleResponseImageClick}
@@ -523,10 +520,17 @@ const FileUploader: React.FC<Props> = ({}) => {
                     height={512}
                   />
                   <h1>original image</h1>
-                  <button onClick={handleShowOriginalButton}>
-                    show {year}
-                  </button>
-                  <button onClick={handleBackButton}>back</button>
+                  <div className="twoButtons">
+                    <button className="startButton" onClick={handleBackButton}>
+                      back
+                    </button>
+                    <button
+                      className="startButton"
+                      onClick={handleShowOriginalButton}
+                    >
+                      show {year}
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div>
@@ -553,10 +557,20 @@ const FileUploader: React.FC<Props> = ({}) => {
                         <h1> {year}</h1>
                       </div>
                     )}
-                    <button onClick={handleShowOriginalButton}>
-                      show original
-                    </button>
-                    <button onClick={handleBackButton}>back</button>
+                    <div className="twoButtons">
+                      <button
+                        className="startButton"
+                        onClick={handleBackButton}
+                      >
+                        back
+                      </button>
+                      <button
+                        className="startButton"
+                        onClick={handleShowOriginalButton}
+                      >
+                        show original
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -601,10 +615,10 @@ const FileUploader: React.FC<Props> = ({}) => {
                     <button className="startButton" onClick={handleClick}>
                       Lets Go
                     </button>
-                  
-                  <button className="startButton" onClick={handleClickGif}>
-                    Lets Gif
-                  </button>
+
+                    <button className="startButton" onClick={handleClickGif}>
+                      Lets Gif
+                    </button>
                   </div>
                 </div>
               )}

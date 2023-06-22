@@ -8,7 +8,7 @@ body {
 }
 
 h1 {
-  @apply mt-0 text-4xl font-bold uppercase;
+  @apply mt-4 text-4xl font-bold uppercase;
 }
 h2 {
   @apply mt-2 font-thin text-2xl uppercase z-30;
@@ -49,13 +49,13 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 img {
-  height: 512px;
-  width: 512px;
+  height: 60vh;
+  width: 60vh;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
 
   @media (orientation: portrait) {
-    height: 512px;
-    width: 512px;
+    height: 85vw;
+    width: 85vw;
   }
 }
 
@@ -141,9 +141,7 @@ img {
 }
 
 .centerContainer {
-  height: 500px;
-  width: 500px;
-  @apply flex relative items-center ml-auto mr-auto;
+
 }
 
 .backdrop {
@@ -168,27 +166,38 @@ img {
 }
 
 .upload {
-  z-index: 0;
-  position: absolute;
-
-  height: 512px;
-  width: 512px;
+  position: relative; 
+  margin-top: 20px;
+  height: 60vh;
+  width: 60vh;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  @apply duration-200 select-none ease-in-out mr-auto ml-auto rounded-3xl bg-gray-900 shadow-2xl;
+  @apply duration-200 select-none ease-in-out rounded-3xl bg-gray-900 shadow-2xl;
+
+  @media (orientation: portrait) {
+    height: 85vw;
+    width: 85vw;
+  }
 }
 
 .loading {
-  z-index: 10;
   position: absolute;
-  height: 512px;
-  width: 512px;
+  z-index: 40;
+  height: 60vh;
+  width: 60vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  @apply duration-200 select-none ease-in-out mr-auto ml-auto rounded-3xl bg-black bg-opacity-40 backdrop-blur-sm;
+  @apply duration-200 select-none ease-in-out mr-auto ml-auto rounded-3xl bg-black bg-opacity-50 backdrop-blur-xl;
+
+  @media (orientation: portrait) {
+    height: 85vw;
+    width: 85vw;
+  }
 }
 
 .loadingAnimation {
@@ -212,17 +221,31 @@ img {
 }
 
 .FileUploader {
-  height: 512px;
-  width: 512px;
+  height: 60vh;
+  width: 60vh;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl bg-gray-900 shadow-2xl;
+
+  
 }
 
 .startButton {
-  @apply p-4 w-1/4;
+  @apply p-4 w-1/6;
+
+  @media (orientation: portrait) {
+    padding: 6px;
+    width: 50%;
+
+  }
+
+
 }
 
 /* imput type range color green */
 input[type="range"] {
-  width: 512px;
+  width: 75vh;
   @apply bg-green-600 m-4;
+
+  @media (orientation: portrait) {
+    width: 85vw;
+  }
 }
