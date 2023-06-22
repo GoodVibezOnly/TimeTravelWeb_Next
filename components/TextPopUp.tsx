@@ -5,8 +5,20 @@ interface Props {
 }
 
 const TextPopUp: React.FC<Props> = ({ onClose }) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const { target } = event;
+    const isBackdrop = (target as HTMLElement).classList.contains("backdrop");
+    const isCloseButton = (target as HTMLElement).classList.contains(
+      "closePopUpButton"
+    );
+
+    if (isBackdrop || isCloseButton) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="backdrop" onClick={onClose}>
+    <div className="backdrop" onClick={handleClick}>
       <div className="PopUpContainer">
         <div className="popUpWrapperBackground">
           <button className="closePopUpButton" onClick={onClose}>

@@ -8,7 +8,7 @@ export default function Home() {
     <main>
       <TopNavigationBar></TopNavigationBar>
       <FileUploader />
-      
+      <BottomBar version="0.1.0" />
     </main>
   );
 }

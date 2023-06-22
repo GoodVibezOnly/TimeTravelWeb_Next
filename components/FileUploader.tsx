@@ -662,7 +662,7 @@ const FileUploader: React.FC<Props> = ({}) => {
         </div>
       )}
          <div>
-      <button onClick={() => setCreditsPopUpOpen(true)}>Credits</button>
+      <button onClick={() => setCreditsPopUpOpen(true)} className="bottom-bar absolute left-0 bottom-0 text-white py-2 px-4">About</button>
       {creditsPopUpOpen ? <TextPopUp onClose={handleClose} /> : null}
     </div>
       

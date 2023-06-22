@@ -57,8 +57,8 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 img {
-  height: 55vh;
-  width: 55vh;
+  height: 50vh;
+  width: 50vh;
   @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
 
   @media (orientation: portrait) {
@@ -193,7 +193,7 @@ img {
 
 .loading {
   position: absolute;
-  z-index: 40;
+  z-index: 20;
   height: 50vh;
   width: 50vh;
   display: flex;
@@ -261,17 +261,19 @@ input[type="range"] {
 
 
 .popUpWrapperBackground {
-  @apply duration-200 ease-in-out bg-gray-900 rounded-xl shadow-2xl p-20 pointer-events-none;
-  position: relative; /* Add position relative to make positioning relative to this element */
+  z-index: 100;
+  @apply duration-200 ease-in-out bg-gray-900 rounded-xl shadow-2xl p-20;
+  position: relative; 
 }
 
 .popUpWrapper {
-  pointer-events: none;
+
 
 }
 .closePopUpButton {
   @apply duration-200 ease-in-out;
   position: absolute;
+  z-index: 110;
   top: 3px;
   right: 3px;
   border-radius: 100%;
