@@ -19,41 +19,35 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
-    \entry{Higham2020}{book}{}
+    \entry{webui}{online}{}
       \name{author}{1}{}{%
-        {{hash=5bec9d02065c9b35d45c881a24f7a1cd}{%
-           family={Higham},
-           familyi={H\bibinitperiod},
-           given={Nicholas\bibnamedelima J.},
-           giveni={N\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=16875aa2b5eed3e388dcceaa36f56214}{%
+           family={various},
+           familyi={v\bibinitperiod}}}%
       }
-      \list{location}{1}{%
-        {Philadelphia}%
-      }
-      \list{publisher}{2}{%
-        {Society for Industrial}%
-        {Applied Mathematics (SIAM)}%
-      }
-      \strng{namehash}{5bec9d02065c9b35d45c881a24f7a1cd}
-      \strng{fullhash}{5bec9d02065c9b35d45c881a24f7a1cd}
-      \strng{bibnamehash}{5bec9d02065c9b35d45c881a24f7a1cd}
-      \strng{authorbibnamehash}{5bec9d02065c9b35d45c881a24f7a1cd}
-      \strng{authornamehash}{5bec9d02065c9b35d45c881a24f7a1cd}
-      \strng{authorfullhash}{5bec9d02065c9b35d45c881a24f7a1cd}
-      \field{sortinit}{H}
-      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \strng{namehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{fullhash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{bibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authorbibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authornamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authorfullhash}{16875aa2b5eed3e388dcceaa36f56214}
+      \field{sortinit}{v}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{edition}{3}
       \field{langid}{english}
-      \field{title}{Handbook of Writing for the Mathematical Sciences}
-      \field{year}{2020}
+      \field{title}{{Stable Diffusion Webui}}
+      \field{urlday}{24}
+      \field{urlmonth}{6}
+      \field{urlyear}{2023}
+      \field{year}{2023}
       \field{dateera}{ce}
+      \field{urldateera}{ce}
       \verb{urlraw}
-      \verb https://www.maths.manchester.ac.uk/~higham/hwms/
+      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
       \endverb
       \verb{url}
-      \verb https://www.maths.manchester.ac.uk/~higham/hwms/
+      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
       \endverb
     \endentry
   \enddatalist
