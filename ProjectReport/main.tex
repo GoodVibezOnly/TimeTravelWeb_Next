@@ -91,6 +91,22 @@ When both the stable diffusion webUI and the web based frontend are locally host
 In this chapter each part of the image generation is explained in detail.
 
 \section{Stable Diffusion Setup}
+The stable diffusion webUI \cite{webui} is locally hosted on a machine so that it can be used to transform images. A couple of changes were made the UI to make it possible to generate past version of images.
+The specific stable diffusion model used is realistic vision V2.0 \cite{realisticVision}, which is supposed to generate more realistic looking images compared to the base stable diffusion model included in the webUI.
+
+Additionally, the ControlNet plugin \cite{controllNet} is used to enhance images further. With the help of ControlNet canny it is possible to trace the outlines of objects in images that are put into stable diffusion, thereby resulting in images which more closely resemble the original.
+Furthermore, the following settings were changed inside the webUI:
+\begin{enumerate}
+    \item under ControlNet: Allow other script to control this extension
+    \item under Interrogate Options: Increase the minimum and maximum description length
+\end{enumerate}
+
+Finally, the command line section of the webui-user.bat file inside the folder for the stable diffusion webUI was changed to allow for API calls from the locally hosted front end as can be seen in the following code:
+
+\begin{verbatim}
+    set COMMANDLINE_ARGS= --xformers --autolaunch --medvram --api 
+    --cors-allow-origins=http://127.0.0.1:7860 --cors-allow-origins=http://localhost:3000
+\end{verbatim}
 
 \section{The Frontend}
 Give a well-structured description of the architecture and the technical design

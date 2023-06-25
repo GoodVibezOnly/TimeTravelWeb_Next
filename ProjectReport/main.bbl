@@ -31,6 +31,71 @@
       \strng{authorbibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
       \strng{authornamehash}{16875aa2b5eed3e388dcceaa36f56214}
       \strng{authorfullhash}{16875aa2b5eed3e388dcceaa36f56214}
+      \field{extraname}{1}
+      \field{sortinit}{v}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{{Stable Diffusion Webui}}
+      \field{urlday}{24}
+      \field{urlmonth}{6}
+      \field{urlyear}{2023}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
+      \endverb
+      \verb{url}
+      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
+      \endverb
+    \endentry
+    \entry{realisticVision}{online}{}
+      \name{author}{1}{}{%
+        {{hash=16875aa2b5eed3e388dcceaa36f56214}{%
+           family={various},
+           familyi={v\bibinitperiod}}}%
+      }
+      \strng{namehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{fullhash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{bibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authorbibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authornamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authorfullhash}{16875aa2b5eed3e388dcceaa36f56214}
+      \field{extraname}{2}
+      \field{sortinit}{v}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{{Stable Diffusion Webui}}
+      \field{urlday}{24}
+      \field{urlmonth}{6}
+      \field{urlyear}{2023}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
+      \endverb
+      \verb{url}
+      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
+      \endverb
+    \endentry
+    \entry{controllNet}{online}{}
+      \name{author}{1}{}{%
+        {{hash=16875aa2b5eed3e388dcceaa36f56214}{%
+           family={various},
+           familyi={v\bibinitperiod}}}%
+      }
+      \strng{namehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{fullhash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{bibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authorbibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authornamehash}{16875aa2b5eed3e388dcceaa36f56214}
+      \strng{authorfullhash}{16875aa2b5eed3e388dcceaa36f56214}
+      \field{extraname}{3}
       \field{sortinit}{v}
       \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
       \field{labelnamesource}{author}
