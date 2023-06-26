@@ -1,7 +1,3 @@
-%% A simple template for a term report using the Hagenberg setup
-%% based on the standard LaTeX 'report' class
-%%% äöüÄÖÜß  <-- no German umlauts here? Use an UTF-8 compatible editor!
-
 %%% Magic comments for setting the correct parameters in compatible IDEs
 % !TeX encoding = utf8
 % !TeX program = pdflatex 
@@ -9,11 +5,6 @@
 % !BIB program = biber
 
 \documentclass[english,notitlepage,smartquotes]{hgbreport}
-% Valid options in [..]: 
-%    Main language: 'german' (default), 'english'
-%    Turn on smart quote handling: 'smartquotes'
-%    APA bibliography style: 'apa'
-%    Do not create a separate title page: 'notitlepage'
 %%%-----------------------------------------------------------------------------
 
 \RequirePackage[utf8]{inputenc} % Remove when using lualatex or xelatex!
@@ -56,9 +47,9 @@ The purpose of this project was to do a first step towards this vision by invest
 
 Since no similar previous work exists, as a first step a general pipeline for transforming images to a "past" version of the image had to be developed. Stable diffusion allows for inputting prompts in addition to an image to further shape the outcome of the transformed image. The stable diffusion webUI \cite{webui}, an open-source project which allows for locally hosting a web based UI to interact with a stable diffusion model, served as a basis for researching how to generate "past" images.
 
-In addition to the whole image generation, certain limitation had to be taken into consideration as well. For example, it was important to limit how far back in time the images should be generated in. Since stable diffusion is trained on actual photographs, paintings and so on it naturally has less training data to work with depending on how far back in time one goes. Therefore, the year 1880 was deemed as a reasonable cutoff for the time machine as this was the year photography started to become more common.
+In addition to the whole image generation, certain limitation had to be taken into consideration as well. For example, it was important to limit how far back in time the images should be generated in. Since stable diffusion is trained on actual photographs, paintings and so on it naturally has less training data to work with depending on how far back in time one goes. Therefore, the year 1880 was deemed as a reasonable cut-off for the time machine as this was the year photography started to become more common.
 
-After a month of research and trying to find appropriate prompts, a pipeline for the image generation was developed as can be seen in figure \ref{fig:simpPipeline}
+After a month of research and trying to find appropriate prompts, a pipeline for the image generation was developed as can be seen in figure
 
 \begin{figure}[htbp]
     \centering\small
@@ -67,7 +58,24 @@ After a month of research and trying to find appropriate prompts, a pipeline for
     \label{fig:simpPipeline}
 \end{figure}
 
-Based on the pipeline, a simple frontend based on React and NextJS was developed for the time machine \ref{fig:frontendPre}. The frontend implements everything that is needed for uploading and resizing the image. Additionally, it also contains a repertoire of base prompts based on each year. These base prompts contain standard information for each year like which camera was typically used for the time span. Image interrogation and image generation are handled in the background via the stable diffusion webUI to which the frontend makes API calls.
+The pipeline goes as follows:
+\begin{enumerate}
+    \item Upload Image
+    \item resize image to 512x512 which is the preferred format for stable diffusion
+    \item if available: read coordinates from image data and assign city and country
+    \item set desired past year between 1880 - 2013
+    \item interrogate image via stable diffusion to generate base prompt
+    \item combine year, geolocation and base prompt into a single prompt
+    \item if the year is below 1950 filter out all colors from the prompt and set colors to negative prompt to ensure a black and white image
+    \item send prompt to chatGPT and let it filter out objects from the prompt which did not exist in the specified year
+    \item add year specific information to filtered prompt like common cameras and techniques
+    \item send image and prompt to stable diffusion 
+    \item generate canny edges via ControlNet plugin for stable diffusion
+    \item generate past image based on prompt and canny edges version of image
+    \item output generated image
+\end{enumerate}
+
+Based on the pipeline, a simple frontend based on React and NextJS was developed as can be seen in figure . The frontend implements everything that is needed for uploading and resizing the image. Additionally, it also contains a repertoire of base prompts based on each year. These base prompts contain standard information for each year like which camera was typically used for the time span. Image interrogation and image generation are handled in the background via the stable diffusion webUI to which the frontend makes API calls.
 When both the stable diffusion webUI and the web based frontend are locally hosted on a machine it is possible to upload images to the frontend to generate a new image based on a selected year or a GIF based on the whole year range.
 
 \begin{figure}[htbp]
@@ -98,8 +106,10 @@ Additionally, the ControlNet plugin \cite{controllNet} is used to enhance images
 Furthermore, the following settings were changed inside the webUI:
 \begin{enumerate}
     \item under ControlNet: Allow other script to control this extension
-    \item under Interrogate Options: Increase the minimum and maximum description length
+    \item under Interrogate Options: Increase the minimum and maximum description length 
+    \item under Interrogate Options: skip inquire categories for artists, flavors, mediums and movements 
 \end{enumerate}
+These settings ensure that ControlNet can be called from the frontend. Also, the changes to the interrogate options are vital, as otherwise the generated prompt for the past image could contain information about artists or non camera mediums which more often than not results in the generated image looking like a painting instead of a realistic photograph.
 
 Finally, the command line section of the webui-user.bat file inside the folder for the stable diffusion webUI was changed to allow for API calls from the locally hosted front end as can be seen in the following code:
 

@@ -19,7 +19,38 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
-    \entry{webui}{online}{}
+    \entry{realisticVision}{online}{}
+      \name{author}{1}{}{%
+        {{hash=e5763579b034457cc307a98ab4f90bfe}{%
+           family={SG_161222},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{e5763579b034457cc307a98ab4f90bfe}
+      \strng{fullhash}{e5763579b034457cc307a98ab4f90bfe}
+      \strng{bibnamehash}{e5763579b034457cc307a98ab4f90bfe}
+      \strng{authorbibnamehash}{e5763579b034457cc307a98ab4f90bfe}
+      \strng{authornamehash}{e5763579b034457cc307a98ab4f90bfe}
+      \strng{authorfullhash}{e5763579b034457cc307a98ab4f90bfe}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{{Realistic Vision Model}}
+      \field{urlday}{24}
+      \field{urlmonth}{6}
+      \field{urlyear}{2023}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://civitai.com/models/4201/realistic-vision-v20
+      \endverb
+      \verb{url}
+      \verb https://civitai.com/models/4201/realistic-vision-v20
+      \endverb
+    \endentry
+    \entry{controllNet}{online}{}
       \name{author}{1}{}{%
         {{hash=16875aa2b5eed3e388dcceaa36f56214}{%
            family={various},
@@ -37,7 +68,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{langid}{english}
-      \field{title}{{Stable Diffusion Webui}}
+      \field{title}{{ControlNet}}
       \field{urlday}{24}
       \field{urlmonth}{6}
       \field{urlyear}{2023}
@@ -45,13 +76,13 @@
       \field{dateera}{ce}
       \field{urldateera}{ce}
       \verb{urlraw}
-      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
+      \verb https://github.com/lllyasviel/ControlNet
       \endverb
       \verb{url}
-      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
+      \verb https://github.com/lllyasviel/ControlNet
       \endverb
     \endentry
-    \entry{realisticVision}{online}{}
+    \entry{webui}{online}{}
       \name{author}{1}{}{%
         {{hash=16875aa2b5eed3e388dcceaa36f56214}{%
            family={various},
@@ -64,38 +95,6 @@
       \strng{authornamehash}{16875aa2b5eed3e388dcceaa36f56214}
       \strng{authorfullhash}{16875aa2b5eed3e388dcceaa36f56214}
       \field{extraname}{2}
-      \field{sortinit}{v}
-      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{langid}{english}
-      \field{title}{{Stable Diffusion Webui}}
-      \field{urlday}{24}
-      \field{urlmonth}{6}
-      \field{urlyear}{2023}
-      \field{year}{2023}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \verb{urlraw}
-      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
-      \endverb
-      \verb{url}
-      \verb https://github.com/AUTOMATIC1111/stable-diffusion-webui
-      \endverb
-    \endentry
-    \entry{controllNet}{online}{}
-      \name{author}{1}{}{%
-        {{hash=16875aa2b5eed3e388dcceaa36f56214}{%
-           family={various},
-           familyi={v\bibinitperiod}}}%
-      }
-      \strng{namehash}{16875aa2b5eed3e388dcceaa36f56214}
-      \strng{fullhash}{16875aa2b5eed3e388dcceaa36f56214}
-      \strng{bibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
-      \strng{authorbibnamehash}{16875aa2b5eed3e388dcceaa36f56214}
-      \strng{authornamehash}{16875aa2b5eed3e388dcceaa36f56214}
-      \strng{authorfullhash}{16875aa2b5eed3e388dcceaa36f56214}
-      \field{extraname}{3}
       \field{sortinit}{v}
       \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
       \field{labelnamesource}{author}
