@@ -15,9 +15,7 @@ export async function POST(req: NextRequest) {
     process.env.STABLE_DIFF_URL + "/sdapi/v1/txt2img",
     {
       prompt: prompt,
-      negatives:
-        negativePrompt +
-        "painting, render, overexposed, distorted face, Overexposed, render, lowquality, deformed bodys, text, distorted face, picture frame, oversaturated, distorted, writing, border, multiple images, blurry, watermark, unrealistic, lowresolution, lowquality, lowcontrast, pixelated, unnatural, artefact, moiré, motion blur, compression artefacts",
+      negatives: negativePrompt,
       steps: 35,
       height: 512,
       width: 512,

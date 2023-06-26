@@ -21,16 +21,16 @@
   \datalist[entry]{nty/global//global/global}
     \entry{realisticVision}{online}{}
       \name{author}{1}{}{%
-        {{hash=e5763579b034457cc307a98ab4f90bfe}{%
-           family={SG_161222},
+        {{hash=e61345ff1ebb9d9ae748362764adc1d7}{%
+           family={SG161222},
            familyi={S\bibinitperiod}}}%
       }
-      \strng{namehash}{e5763579b034457cc307a98ab4f90bfe}
-      \strng{fullhash}{e5763579b034457cc307a98ab4f90bfe}
-      \strng{bibnamehash}{e5763579b034457cc307a98ab4f90bfe}
-      \strng{authorbibnamehash}{e5763579b034457cc307a98ab4f90bfe}
-      \strng{authornamehash}{e5763579b034457cc307a98ab4f90bfe}
-      \strng{authorfullhash}{e5763579b034457cc307a98ab4f90bfe}
+      \strng{namehash}{e61345ff1ebb9d9ae748362764adc1d7}
+      \strng{fullhash}{e61345ff1ebb9d9ae748362764adc1d7}
+      \strng{bibnamehash}{e61345ff1ebb9d9ae748362764adc1d7}
+      \strng{authorbibnamehash}{e61345ff1ebb9d9ae748362764adc1d7}
+      \strng{authornamehash}{e61345ff1ebb9d9ae748362764adc1d7}
+      \strng{authorfullhash}{e61345ff1ebb9d9ae748362764adc1d7}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}

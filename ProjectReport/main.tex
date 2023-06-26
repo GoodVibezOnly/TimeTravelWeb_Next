@@ -47,9 +47,7 @@ The purpose of this project was to do a first step towards this vision by invest
 
 Since no similar previous work exists, as a first step a general pipeline for transforming images to a "past" version of the image had to be developed. Stable diffusion allows for inputting prompts in addition to an image to further shape the outcome of the transformed image. The stable diffusion webUI \cite{webui}, an open-source project which allows for locally hosting a web based UI to interact with a stable diffusion model, served as a basis for researching how to generate "past" images.
 
-In addition to the whole image generation, certain limitation had to be taken into consideration as well. For example, it was important to limit how far back in time the images should be generated in. Since stable diffusion is trained on actual photographs, paintings and so on it naturally has less training data to work with depending on how far back in time one goes. Therefore, the year 1880 was deemed as a reasonable cut-off for the time machine as this was the year photography started to become more common.
-
-After a month of research and trying to find appropriate prompts, a pipeline for the image generation was developed as can be seen in figure
+In addition to the whole image generation, certain limitation had to be taken into consideration as well. For example, it was important to limit how far back in time the images should be generated in. Since stable diffusion is trained on actual photographs, paintings and so on it naturally has less training data to work with depending on how far back in time one goes. Therefore, the year 1880 was deemed as a reasonable cut-off for the time machine as this was the year photography started to become more common. After a month of research a pipeline for the image generation was developed as can be seen in figure \ref{fig:simpPipeline}.
 
 \begin{figure}[htbp]
     \centering\small
@@ -75,7 +73,7 @@ The pipeline goes as follows:
     \item output generated image
 \end{enumerate}
 
-Based on the pipeline, a simple frontend based on React and NextJS was developed as can be seen in figure . The frontend implements everything that is needed for uploading and resizing the image. Additionally, it also contains a repertoire of base prompts based on each year. These base prompts contain standard information for each year like which camera was typically used for the time span. Image interrogation and image generation are handled in the background via the stable diffusion webUI to which the frontend makes API calls.
+Based on the pipeline, a simple frontend based on React and NextJS was developed as can be seen in figure \ref{fig:frontendPre}. The frontend implements everything that is needed for uploading and resizing the image. Additionally, it also contains a repertoire of base prompts based on each year. These base prompts contain standard information for each year like which camera was typically used for the time span. Image interrogation and image generation are handled in the background via the stable diffusion webUI to which the frontend makes API calls.
 When both the stable diffusion webUI and the web based frontend are locally hosted on a machine it is possible to upload images to the frontend to generate a new image based on a selected year or a GIF based on the whole year range.
 
 \begin{figure}[htbp]
@@ -119,16 +117,43 @@ Finally, the command line section of the webui-user.bat file inside the folder f
 \end{verbatim}
 
 \section{The Frontend}
-Give a well-structured description of the architecture and the technical design
-of your implementation with sufficient granularity to enable an external person
-to continue working on the project.
+The frontend was developed using React, Typescript and NextJS 13. Therefore the project has the standard nextJS structure. The "app" folder contain the base layout of a page as well as all API routes. The "components" folder contains all components used on the pages. For styling purposes TailwindCSS was used. Since the frontend only serves as a UI for easier interaction and access to stable diffusion it was developed as a single page application.
+
+\subsection{Components}
+A total of three components were developed. \begin{itemize}
+    \item BottomBar 
+    \item TopNavigationBar
+    \item FileUploader
+\end{itemize}
+The first two components are simply for cosmetic purposes while the FileUploader contains most of the logic.
+\subsubsection{FileUploader}
+
+
+\subsection{API Routes}
+A total of five API routes were implemented in order to have a cleaner code structure as well as keep server side code out of the FileUploader component.
+\subsubsection{interrogateImage}
+The first API route is interrogateImage which makes an API call to the locally hosted stable diffusion implementation and returns the generated image description.
+\subsubsection{getPrompt}
+The getPrompt API route filters out all colors from the prompt and contains prewritten prompt parts to the base prompt depending on the year.
+\subsubsection{getGPT}
+The getGPT API route makes an API call to chatGPT containing the year and prompt and request chatGPT to generate a list of negative prompts filled with objects that are contained inside the prompt but did not exist in the selected year.
+\subsubsection{getNegativePrompt}
+The getNegativePrompt API rout add additional prewritten negative prompts based on the selected year.
+\subsubsection{convertImage}
+The convertImage API route makes an API call to the locally hosted stable diffusion implementation containing the generated prompt, negative prompts as well as the input image.
 
 %%%-----------------------------------------------------------------------------
 \chapter{Summary}
 %%%-----------------------------------------------------------------------------
 
-Give a concise (and honest) summary of what has been accomplished and what not. 
-Point out issues that may warrant further investigation.
+Over the course of the semester a pipeline for generating a version of an image based on a specific past year was created.
+Based on this pipeline a front end application was developed which makes it possible to upload single images as well as select a specific year to generate a past version of the uploaded image based on the selected year.
+Additionally, uploaded images can also be turned into GIFs to have a time lapse over a whole year range going from 1880 to 2013
+
+\subsection{Possible Issues}
+In the current implementation the FileUploader component currently contains the bulk of the code in the front end, thereby making it a very bloated component. This can make it hard to expand the functionality of the whole application. 
+The current solution always has to be locally hosted which requires users to have the stable diffusion webUI running as well. Since the stable diffusion webUI requires a decent GPU to run properly this can be an issue when working on a less powerful device. Steps were taken to try to host the stable diffusion webUI on one of the render nodes at the FH Hagenberg, but this still requires users to be inside the WiFi network of the universtiy as well as having the frontend application running locally.
+
 
 %%%-----------------------------------------------------------------------------
 \appendix                                                   % Switch to appendix
