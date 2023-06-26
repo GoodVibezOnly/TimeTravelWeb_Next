@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 interface ClipResponse {
   caption: string;
+  
 }
 
 export async function POST(req: NextRequest) {

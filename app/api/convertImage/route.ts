@@ -7,6 +7,7 @@ interface ConvertResponse {
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
+  const negativePrompt = data.negativePrompt;
   const prompt = data.prompt;
   const input_image = data.image;
 
@@ -15,7 +16,8 @@ export async function POST(req: NextRequest) {
     {
       prompt: prompt,
       negatives:
-        "painting, render, distorted face, Overexposed, render, lowquality, deformed bodys, text, distorted face, picture frame, oversaturated, overexposed, underexposed, painting, distorted, writing, border, multiple images, blurry, watermark, unrealistic, lowresolution, lowquality, lowcontrast, pixelated, noisy, unnatural, artefact, moiré, motion blur, compression artefacts",
+        negativePrompt +
+        "painting, render, overexposed, distorted face, Overexposed, render, lowquality, deformed bodys, text, distorted face, picture frame, oversaturated, distorted, writing, border, multiple images, blurry, watermark, unrealistic, lowresolution, lowquality, lowcontrast, pixelated, unnatural, artefact, moiré, motion blur, compression artefacts",
       steps: 35,
       height: 512,
       width: 512,
@@ -30,7 +32,8 @@ export async function POST(req: NextRequest) {
               model: "control_v11p_sd15_canny [d14c016b]",
               weight: 0.7,
               lowvram: false,
-              // "guessmode": false,
+              threshold_a: 100,
+              threshold_b: 200,
             },
           ],
         },
