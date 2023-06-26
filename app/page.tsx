@@ -1,10 +1,14 @@
 import Image from "next/image";
 import FileUploader from "../components/FileUploader";
+import BottomBar from "@/components/BottomBar";
+import TopNavigationBar from "@/components/TopNaviationBar";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main>
+      <TopNavigationBar></TopNavigationBar>
       <FileUploader />
+      <BottomBar version="0.1.0" />
     </main>
   );
 }
