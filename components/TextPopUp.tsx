@@ -27,7 +27,7 @@ const TextPopUp: React.FC<Props> = ({ onClose }) => {
 
           <div className="popUpWrapper">
             <div>
-              <h1>Image TimeTravel</h1>
+              <h1>Image TimeMachine</h1>
               <h2>Created by:</h2>
               <ul className="creditsList">
                 <li className="creditItem">
