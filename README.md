@@ -28,16 +28,20 @@ Once the setup is complete, a public URL will be displayed in the terminal under
 
 ## Shutting Down the Sessions
 After you're done using the server, please shut down the session by following these steps:
-    ```shell
-        tmux kill-server
+```shell
+tmux kill-server
+```
 
 
 # Local Installation
 
+## Prerequisites
+- NVIDIA GPU with at least 6GB VRAM
+
 1. Install [Automatic1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui) 
 2. Install the [ControlNet Extension](https://github.com/Mikubill/sd-webui-controlnet)
 3. Download the [Canny Model](https://huggingface.co/lllyasviel/ControlNet-v1-1/tree/main) (`control_v11p_sd15_canny.pth`) for Controlnet
-4. Download a [Stable Diffusion Model](https://civitai.com/models/4201/realistic-vision-v20) (e.g., `realistic-vision-v20`), or use the [Base 1.5 model](https://civitai.com/models/4055/stable-diffusion-v15-base) as an alternative
+4. Download a [Stable Diffusion Model](https://civitai.com/models/4201/realistic-vision-v20) (e.g., `realistic-vision-v20`), or use the [Base 1.5 model]([https://civitai.com/models/4055/stable-diffusion-v15-base](https://huggingface.co/runwayml/stable-diffusion-v1-5)) as an alternative
 5. Set the `PYTHON`, `GIT`, `VENV_DIR` and `COMMANDLINE_ARGS` environment variables (e.g., in the `webui-user.bat` file) within the *stable-diffusion-webui* folder generated when installing Automatic1111
    
    ```batch
@@ -50,8 +54,14 @@ After you're done using the server, please shut down the session by following th
    call webui.bat
    ```
 6. Start the webui-user.bat to start automatic1111
-7. 
+7. Go into the settings -> Interrogate Options and check the following settings: 
+   - `CLIP: skip inquire categories`
+     - `artists` 
+     - `flavours` 
+     - `mediums` 
+     - `movements`
 
+8. Reboot the application and enjoy!
 
 # Time Machine WebUI
 
@@ -69,7 +79,7 @@ In the VS Code terminal, run the following command to install all the required p
     yarn
 ### Step 4: Configure environment variables
 Create a new file inside the project called ".env.local". Open the file and add the following environment variables:
-- `STABLE_DIFF_URL`: The public link you obtained in Step 6.
+- `STABLE_DIFF_URL`: The public link you obtained in Step 6 of the FH installation, or for local installations it is "http://127.0.0.1:7860".
 - `OPENAI_API_KEY`: The API key required for GPT prompt verification. You can get your API key from [OpenAI API Keys](https://platform.openai.com/account/api-keys).
 
 ### Step 5: Start the development server
