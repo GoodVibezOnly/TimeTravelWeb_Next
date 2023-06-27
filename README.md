@@ -6,42 +6,6 @@ A cool car       |  AI generated past version of a cool car
 :-------------------------:|:-------------------------:
 ![bestof_car](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/assets/61803371/57f89862-3d5f-498e-b462-39912ceb2c65) | ![bestof_carOld](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/assets/61803371/5637d654-a419-49bd-b6f8-aa132a98eea4)
 
-
-# How to Get the Stable Diffusion Server Running on the Server
-**Note: FH Hagenberg Network required!**
-
-Follow these steps to set up and run the stable Diffusion Server.
-
-## Prerequisites
-- FH Hagenberg Network access
-
-## Installation Steps
-
-1. Open Terminal.
-2. SSH into the server by running the following command:
-   ```shell
-   ssh textgame@10.21.3.217 
-3. Enter the password when prompted.
-4. Change the directory to stable-diffusion-webui by running the following command:
-    ```shell
-    cd stable-diffusion-webui
-5. Start a new TMUX session by running the following command:
-    ```shell
-    tmux new
-6. Run the webui.sh script by executing the following command:
-    ```shell
-    ./webui.sh
-    It will take some time for the process to complete.
-Once the setup is complete, a public URL will be displayed in the terminal under the message "Running on public URL: https://...".
-
-
-## Shutting Down the Sessions
-After you're done using the server, please shut down the session by following these steps:
-```shell
-tmux kill-server
-```
-
-
 # Local Installation
 
 ## Prerequisites
@@ -106,6 +70,39 @@ Inside the "getGPT" folder, you can find the `route.ts` file where you can switc
 
 Note that GPT-4 is more expensive and may require access to the closed beta.
 
+# How to Get the Stable Diffusion Server Running on the Render Node at the FH Hagenberg
+**Note: You must be in the FH Hagenberg Wifi network!**
+
+Follow these steps to set up and run the stable Diffusion Server.
+
+## Prerequisites
+- FH Hagenberg Network access
+
+## Installation Steps
+
+1. Open Terminal.
+2. SSH into the server by running the following command:
+   ```shell
+   ssh textgame@10.21.3.217 
+3. Enter the password when prompted.
+4. Change the directory to stable-diffusion-webui by running the following command:
+    ```shell
+    cd stable-diffusion-webui
+5. Start a new TMUX session by running the following command:
+    ```shell
+    tmux new
+6. Run the webui.sh script by executing the following command:
+    ```shell
+    ./webui.sh
+    It will take some time for the process to complete.
+Once the setup is complete, a public URL will be displayed in the terminal under the message "Running on public URL: https://...".
+
+
+## Shutting Down the Sessions
+After you're done using the server, please shut down the session by following these steps:
+```shell
+tmux kill-server
+```
 
 
 
