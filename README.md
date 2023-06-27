@@ -104,9 +104,9 @@ After you're done using the server, please shut down the session by following th
 tmux kill-server
 ```
 
-#Credits
+# Credits
 Felix Rader 
-Alexander Gärtner @GoodVibezOnly
+Alexander Gärtner
 
 
 
