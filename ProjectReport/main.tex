@@ -25,7 +25,7 @@
 %%%-----------------------------------------------------------------------------
 
 \begin{abstract}\noindent
-	abstract
+	This projects investigates the potential of AI tools to generate images of the past. The goal was to create a pipeline that allows for generating images of the past based on a given input image. The pipeline is based on stable diffusion, a recent AI tool that allows for generating images based on a given prompt. Implemented via a web based UI the pipeline allows for uploading images and converting them into past version of themselves 
 \end{abstract}
 
 %%%-----------------------------------------------------------------------------
@@ -100,7 +100,7 @@ In this chapter each part of the image generation is explained in detail.
 The stable diffusion webUI \cite{webui} is locally hosted on a machine so that it can be used to transform images. A couple of changes were made the UI to make it possible to generate past version of images.
 The specific stable diffusion model used is realistic vision V2.0 \cite{realisticVision}, which is supposed to generate more realistic looking images compared to the base stable diffusion model included in the webUI.
 
-Additionally, the ControlNet plugin \cite{controllNet} is used to enhance images further. With the help of ControlNet canny it is possible to trace the outlines of objects in images that are put into stable diffusion, thereby resulting in images which more closely resemble the original.
+In order to get the image conversion working properly, the ControlNet plugin \cite{controllNet} is used to enhance images further. With the help of ControlNet canny it is possible to trace the outlines of objects in images that are put into stable diffusion, thereby resulting in images which more closely resemble the original.
 Furthermore, the following settings were changed inside the webUI:
 \begin{enumerate}
     \item under ControlNet: Allow other script to control this extension
@@ -187,7 +187,43 @@ The current solution always has to be locally hosted which requires users to hav
 %%%-----------------------------------------------------------------------------
 \appendix                                                   % Switch to appendix
 %%%-----------------------------------------------------------------------------
-
+\chhapter{Image showcase}
+A showcase of some of the best images generated with the time machine.
+\begin{figure}[htbp]
+    \centering\small
+    \begin{tabular}{cc}
+        \cr(Attnang Austria 2023) & (Attnang Austria 1949)\\ 
+        \fbox{\includegraphics[width=0.45\textwidth]{images/best_of/attnang2023.jpg}} & 
+        \fbox{\includegraphics[width=0.45\textwidth]{images/best_of/attnang1949.png}}\\
+    \end{tabular}
+    \caption{Attnang Austria} 
+\end{figure}
+\begin{figure}[htbp]
+    \centering\small
+    \begin{tabular}{cc}
+        \fbox{\includegraphics[width=0.45\textwidth]{images/best_of/bestof_car.jpg}} & 
+        \fbox{\includegraphics[width=0.45\textwidth]{images/best_of/bestof_carOld.png}}\\
+    \end{tabular}
+    \caption{A random car at one of the parking spots at the FH Hagenberg} 
+\end{figure}
+\begin{figure}[htbp]
+    \centering\small
+    \begin{tabular}{cc}
+        \cr(Hamburg Germany 2018) & (Hamburg Germany 1945)\\ 
+        \fbox{\includegraphics[width=0.45\textwidth]{images/best_of/hamburg2018.jpg}} & 
+        \fbox{\includegraphics[width=0.45\textwidth]{images/best_of/hamburg1945.png.jpg}}\\
+    \end{tabular}
+    \caption{Hamburg Germany} 
+\end{figure}
+\begin{figure}[htbp]
+    \centering\small
+    \begin{tabular}{cc}
+        \cr(Salzkammergut Austria 2023) & (Salzkammergut Austria 1996)\\ 
+        \fbox{\includegraphics[width=0.45\textwidth]{images/best_of/Salzkammergut2023.jpg}} & 
+        \fbox{\includegraphics[width=0.45\textwidth]{images/best_of/Salzkamemrgut1996.png}}\\
+    \end{tabular}
+    \caption{Salzkammergut Austria} 
+\end{figure}
 
 %%%-----------------------------------------------------------------------------
 \MakeBibliography[nosplit]
