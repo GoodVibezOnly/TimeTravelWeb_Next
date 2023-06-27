@@ -75,8 +75,9 @@ Open the folder containing the code using Visual Studio Code or any other code e
 
 ### Step 3: Install required packages
 In the VS Code terminal, run the following command to install all the required packages using yarn (Note: yarn needs to be installed for this to work):
-    ```shell
+    ```
     yarn
+    ```
 ### Step 4: Configure environment variables
 Create a new file inside the project called ".env.local". Open the file and add the following environment variables:
 - `STABLE_DIFF_URL`: The public link you obtained in Step 6 of the FH installation, or for local installations it is "http://127.0.0.1:7860".
@@ -84,7 +85,7 @@ Create a new file inside the project called ".env.local". Open the file and add 
 
 ### Step 5: Start the development server
 In the VS Code terminal, run the following command to start the development server:
-    ```shell
+    ```
     yarn dev
     ```
 This will start the server and the Time Machine WebUI will be accessible at [http://localhost:3000/](http://localhost:3000/).
