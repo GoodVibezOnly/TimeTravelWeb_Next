@@ -31,7 +31,7 @@ A cool car       |  AI generated past version of a cool car
 7. Go into the settings -> Interrogate Options and check the following settings: 
    - `CLIP: skip inquire categories`
      - `artists` 
-     - `flavours` 
+     - `flavors` 
      - `mediums` 
      - `movements`
 
@@ -107,7 +107,7 @@ tmux kill-server
 
 # Credits
 
-Felix Rader 
+[Felix Rader](https://github.com/s1910238061) 
 
 [Alexander Gärtner](https://github.com/GoodVibezOnly)
 
