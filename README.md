@@ -1,5 +1,6 @@
 # AI Time machine using stable diffusion
 This project was created as part of the Interactive Media course at the FH Hagenberg.
+
 This project is a React, NextJS based frontend that interact with stable diffusion to create "past" versions of images
 
 A cool car       |  AI generated past version of a cool car
@@ -105,8 +106,10 @@ tmux kill-server
 ```
 
 # Credits
+
 Felix Rader 
-Alexander Gärtner
+
+[Alexander Gärtner](https://github.com/GoodVibezOnly)
 
 
 
