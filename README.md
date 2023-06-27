@@ -86,6 +86,7 @@ Create a new file inside the project called ".env.local". Open the file and add 
 In the VS Code terminal, run the following command to start the development server:
     ```shell
     yarn dev
+    ```
 This will start the server and the Time Machine WebUI will be accessible at [http://localhost:3000/](http://localhost:3000/).
 
 ### Additional Information
