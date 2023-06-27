@@ -1,6 +1,7 @@
 # AI Time machine using stable diffusion
 This project was created as part of the Interactive Media course at the FH Hagenberg.
 This project is a React, NextJS based frontend that interact with stable diffusion to create "past" versions of images
+
 ![bestof_car](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/assets/61803371/57f89862-3d5f-498e-b462-39912ceb2c65)
 ![bestof_carOld](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/assets/61803371/5637d654-a419-49bd-b6f8-aa132a98eea4)
 
