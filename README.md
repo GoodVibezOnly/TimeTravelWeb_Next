@@ -5,7 +5,7 @@ This project is a React, NextJS based frontend that interact with stable diffusi
 
 A cool car       |  AI generated past version of a cool car
 :-------------------------:|:-------------------------:
-![bestof_car](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/assets/61803371/57f89862-3d5f-498e-b462-39912ceb2c65) | ![bestof_carOld](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/assets/61803371/5637d654-a419-49bd-b6f8-aa132a98eea4)
+![bestof_car](https://raw.githubusercontent.com/GoodVibezOnly/TimeTravelWeb_Next/master/ProjectReport/images/best_of/bestof_car.jpg?raw=true) | ![bestof_carOld](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/blob/master/ProjectReport/images/best_of/bestof_carOld.png?raw=true)
 
 This is an archive since the project is finished. 
 
