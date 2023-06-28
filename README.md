@@ -7,6 +7,8 @@ A cool car       |  AI generated past version of a cool car
 :-------------------------:|:-------------------------:
 ![bestof_car](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/assets/61803371/57f89862-3d5f-498e-b462-39912ceb2c65) | ![bestof_carOld](https://github.com/GoodVibezOnly/TimeTravelWeb_Next/assets/61803371/5637d654-a419-49bd-b6f8-aa132a98eea4)
 
+This is an archive since the project is finished. 
+
 # Local Installation
 
 ## Prerequisites
