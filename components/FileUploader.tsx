@@ -22,7 +22,7 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [showError, setShowError] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
 
-  const [buffer, setBuffer] = useState<any>();
+  const [isGif, setisGif] = useState<boolean>();
   const [imageLocation, setImageLocation] = useState<any>();
   const [PopUpOpen, setPopUpOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
@@ -421,7 +421,8 @@ const FileUploader: React.FC<Props> = ({}) => {
       // Handle the GIF rendering completion
       gif.on("finished", function (blob: Blob | MediaSource) {
         const url = URL.createObjectURL(blob);
-        setBuffer(url);
+        setisGif(true);
+        setResponseImages(url);
       });
     } catch (error) {
       console.error("Error creating GIF:", error);
@@ -517,28 +518,21 @@ const FileUploader: React.FC<Props> = ({}) => {
               ) : (
                 <div>
                   <div>
-                    {buffer ? (
+                    <div>
                       <NextImage
                         className="clickableImages"
                         onClick={handleResponseImageClick}
-                        src={`${buffer}`}
+                        src={responseImage}
                         alt="cool"
                         width={512}
                         height={512}
                       />
-                    ) : (
-                      <div>
-                        <NextImage
-                          className="clickableImages"
-                          onClick={handleResponseImageClick}
-                          src={responseImage}
-                          alt="cool"
-                          width={512}
-                          height={512}
-                        />
+                      {isGif ? (
+                        <h2>Timelapse from 1880 to 2013</h2>
+                      ) : (
                         <h1> {year}</h1>
-                      </div>
-                    )}
+                      )}
+                    </div>
                     <div className="twoButtons">
                       <button
                         className="startButton"
