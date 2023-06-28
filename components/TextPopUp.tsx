@@ -81,6 +81,14 @@ const TextPopUp: React.FC<Props> = ({ onClose }) => {
                     GPT-4
                   </a>
                 </li>
+                <li className="creditItem">
+                  <a
+                    href="https://nominatim.openstreetmap.org/ui/search.html"
+                    target="_blank"
+                  >
+                    OpenStreetMap Nominatim
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
