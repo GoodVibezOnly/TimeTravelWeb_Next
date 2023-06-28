@@ -15,7 +15,7 @@ A cool car       |  AI generated past version of a cool car
 1. Install [Automatic1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui) 
 2. Install the [ControlNet Extension](https://github.com/Mikubill/sd-webui-controlnet)
 3. Download the [Canny Model](https://huggingface.co/lllyasviel/ControlNet-v1-1/tree/main) (`control_v11p_sd15_canny.pth`) for Controlnet
-4. Download a [Stable Diffusion Model](https://civitai.com/models/4201/realistic-vision-v20) (e.g., `realistic-vision-v20`), or use the [Base 1.5 model]([https://civitai.com/models/4055/stable-diffusion-v15-base](https://huggingface.co/runwayml/stable-diffusion-v1-5)) as an alternative
+4. Download a [Stable Diffusion Model](https://civitai.com/models/4201/realistic-vision-v20) (e.g., `realistic-vision-v30`), or use the [Base 1.5 model]([https://civitai.com/models/4055/stable-diffusion-v15-base](https://huggingface.co/runwayml/stable-diffusion-v1-5)) as an alternative
 5. Set the `PYTHON`, `GIT`, `VENV_DIR` and `COMMANDLINE_ARGS` commandline arguments (e.g., in the `webui-user.bat` file) within the *stable-diffusion-webui* folder generated when installing Automatic1111
    
    ```batch
