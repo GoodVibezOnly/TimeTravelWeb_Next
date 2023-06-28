@@ -1,25 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FileResizer from "react-image-file-resizer";
-import BottomBar from "./BottomBar";
+
 import NextImage from "next/image";
-import ts from "typescript";
 import exifr from "exifr";
 import axios from "axios";
-import openai from "openai";
 import ImagePopUp from "./ImagePopUp";
 import TextPopUp from "./TextPopUp";
-import { Configuration, OpenAIApi } from "openai";
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 interface Props {}
-
-interface Response {
-  images: Array<{ url: string }>;
-}
 
 const FileUploader: React.FC<Props> = ({}) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -27,22 +16,43 @@ const FileUploader: React.FC<Props> = ({}) => {
   const [base64Image, setBase64Image] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isProcessed, setIsProcessed] = useState<boolean>(false);
-  const [response, setResponse] = useState<Response>({ images: [] });
-  const [clipResponse, setClipResponse] = useState<Response>();
+
   const [croppedImage, setCroppedImage] = useState<string>("");
   const [showOriginal, setShowOriginal] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
-  const [gifResponse, setGifResponse] = useState<any>();
+
   const [buffer, setBuffer] = useState<any>();
   const [imageLocation, setImageLocation] = useState<any>();
   const [PopUpOpen, setPopUpOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [negativePrompt, setNegativePrompt] = useState<string>("");
-  const [creditsPopUpOpen, setCreditsPopUpOpen] = useState<boolean>(false);
 
   const [responseImage, setResponseImages] = useState<string>("");
-  const [originalImage, setOriginalImage] = useState<string>("");
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        if (PopUpOpen) {
+          if (selectedImage === croppedImage) {
+            setSelectedImage(responseImage);
+            setShowOriginal(false);
+          } else {
+            setSelectedImage(croppedImage);
+            setShowOriginal(true);
+          }
+        } else {
+          setShowOriginal(true);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [PopUpOpen, selectedImage, croppedImage, responseImage]);
 
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -162,7 +172,6 @@ const FileUploader: React.FC<Props> = ({}) => {
   const handleBackButton = () => {
     setIsProcessed(false);
     setShowOriginal(false);
-    setClipResponse(undefined);
   };
 
   const handleShowOriginalButton = () => {
@@ -375,24 +384,12 @@ const FileUploader: React.FC<Props> = ({}) => {
       setStatus("");
       setIsLoading(false);
       setIsProcessed(true);
-      setGifResponse(convertedImages);
+
       generateGif(convertedImages);
     } catch (error) {
       console.error(error);
     }
   };
-
-  function handlesetCreditsPopUpOpen()
-  {
-    setCreditsPopUpOpen(true);
-  }
-  const handleClose = () => {
-    setCreditsPopUpOpen(false);
-  };
-
-  useEffect(() => {
-    console.log(negativePrompt);
-  }, [negativePrompt]);
 
   const generateGif = async (images: any[]) => {
     //@ts-expect-error
@@ -439,52 +436,6 @@ const FileUploader: React.FC<Props> = ({}) => {
     }
     setPopUpOpen(true);
   };
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-        
-        if (PopUpOpen) {
-          if (selectedImage === croppedImage) {
-            setSelectedImage(responseImage);
-            setShowOriginal(false);
-
-          } else {
-            setSelectedImage(croppedImage);
-            setShowOriginal(true);
-
-          }
-        } else {
-          setShowOriginal(true);
-
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [PopUpOpen, selectedImage, croppedImage, responseImage]);
-
-  // if esc key is pressed close TextPopUp
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setPopUpOpen(false);
-        handleClose();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }
-  , [PopUpOpen]);
-
 
   const handleImageClick = () => {
     // setPopUpOpen(true);
@@ -661,16 +612,8 @@ const FileUploader: React.FC<Props> = ({}) => {
           <div className="upload">Please Upload an Image</div>
         </div>
       )}
-         <div>
-      <button onClick={() => setCreditsPopUpOpen(true)} className="bottom-bar absolute left-0 bottom-0 text-white py-2 px-4">About</button>
-      {creditsPopUpOpen ? <TextPopUp onClose={handleClose} /> : null}
     </div>
-      
-
-    </div>
-
   );
-
 };
 
 export default FileUploader;

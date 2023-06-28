@@ -16,7 +16,10 @@ function getNegativePrompt(year: number, gptPrompt: string) {
     promptText += newerPhotoNegativePrompt;
   }
 
-  return promptText; 
+  return (
+    promptText +
+    +"painting, render, overexposed, distorted face, Overexposed, render, lowquality, deformed bodys, text, distorted face, picture frame, oversaturated, distorted, writing, border, multiple images, blurry, watermark, unrealistic, lowresolution, lowquality, lowcontrast, pixelated, unnatural, artefact, moiré, motion blur, compression artefacts"
+  );
 }
 
 export async function POST(req: NextRequest) {
