@@ -1,0 +1,296 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-800 text-center align-middle text-gray-200 mx-auto
+  bg-center flex-auto justify-center;
+}
+.headline {
+  @apply mt-8 text-5xl font-bold uppercase;
+
+  @media (orientation: portrait) {
+    font-size: 8vw;
+
+  }
+}
+
+h1 {
+  @apply mt-4 text-4xl font-bold uppercase;
+}
+h2 {
+  @apply mt-2 font-thin text-2xl uppercase z-30;
+}
+.h1Error {
+  @apply mt-4 text-4xl font-bold uppercase text-red-500;
+}
+
+.h2Error {
+  @apply mt-4 font-thin text-2xl uppercase z-30 text-red-500;
+}
+
+.yearText {
+  @apply mt-1 text-4xl font-bold uppercase;
+}
+
+button {
+  @apply border text-white font-bold py-4 px-4 m-4 duration-200 ease-in-out rounded-2xl bg-gray-800 uppercase;
+}
+button:hover {
+  @apply bg-gray-700 scale-105;
+}
+button:active {
+  @apply bg-gray-900 scale-95;
+}
+
+.twoButtons {
+  @apply flex justify-center;
+}
+
+input[type="file"] {
+  @apply m-4  bg-gray-800 border border-cyan-800 border-dashed border-spacing-5 rounded-2xl shadow-2xl duration-200;
+}
+
+/* button of input type file */
+input[type="file"]::-webkit-file-upload-button {
+  @apply border text-white font-bold py-2 px-2  m-2 duration-200 ease-in-out rounded-2xl bg-gray-800 uppercase border-spacing-0 border-white outline-red-200 hover:scale-105 active:scale-95;
+}
+
+img {
+  height: 50vh;
+  width: 50vh;
+  @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl max-w-full;
+
+  @media (orientation: portrait) {
+    height: 85vw;
+    width: 85vw;
+  }
+}
+
+.fullscreenImage {
+  background-color: rgba(0, 0, 0);
+  @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl shadow-2xl;
+
+  /* Landscape styles */
+  height: 85vh;
+  width: 85vh;
+
+  /* Portrait styles */
+  @media (orientation: portrait) {
+    height: 98vw;
+    width: 98vw;
+  }
+}
+
+
+.imageContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 85vh;
+}
+
+.imageWrapper {
+  position: relative;
+}
+.closeButtonContainer {
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 0;
+  right: 0px;
+  @apply select-none;
+}
+
+
+.closeButtonContainer.fadeIn {
+  opacity: 1;
+}
+.closeButtonContainer:hover {
+  @appy background-color: rgba(255, 255, 255, 0.1);
+}
+
+.closeButton {
+  border: none;
+  background-color: rgba(255, 0, 0, 0);
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+}
+
+.closeButton:hover {
+  scale: 125%;
+}
+.closeButton:active {
+  scale: 75%;
+}
+
+.closeSymbol {
+  font-size: 24px;
+  /* centered */
+  position: absolute;
+
+  transform: translate(-50%, -50%);
+}
+
+.clickableImages {
+  @apply cursor-pointer;
+}
+
+.clickableImages:hover {
+  @apply scale-105;
+}
+
+.clickableImages:active {
+  @apply scale-95;
+}
+
+.centerContainer {
+
+}
+
+.backdrop {
+  z-index: 5;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* fullscreen */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* center content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* blur */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* transition */
+  transition: all 0.8s ease;
+}
+
+.upload {
+  position: relative; 
+  margin-top: 20px;
+  height: 50vh;
+  width: 50vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @apply duration-200 select-none ease-in-out rounded-3xl bg-gray-900 shadow-2xl;
+
+  @media (orientation: portrait) {
+    height: 85vw;
+    width: 85vw;
+  }
+}
+
+.loading {
+  position: absolute;
+  z-index: 20;
+  height: 50vh;
+  width: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @apply duration-200 select-none ease-in-out mr-auto ml-auto rounded-3xl bg-black bg-opacity-50 backdrop-blur-xl;
+
+  @media (orientation: portrait) {
+    height: 85vw;
+    width: 85vw;
+  }
+}
+
+.loadingAnimation {
+  animation: loadingAnimationSpin infinite 1s linear;
+  @apply text-4xl select-none duration-300 shadow-none opacity-100;
+}
+
+@keyframes loadingAnimationSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+.loadingAnimation:hover {
+  @apply text-5xl;
+}
+.loadingAnimation:active {
+  @apply text-3xl;
+}
+
+.FileUploader {
+  height: 50vh;
+  width: 50vh;
+  @apply duration-200 ease-in-out mr-auto ml-auto rounded-3xl bg-gray-900 shadow-2xl;
+
+  
+}
+
+.startButton {
+  @apply p-3 w-1/6;
+
+  @media (orientation: portrait) {
+    padding: 3px;
+    width: 50%;
+
+  }
+
+
+}
+
+/* imput type range color green */
+input[type="range"] {
+  width: 75vh;
+  @apply bg-green-600 m-4;
+
+  @media (orientation: portrait) {
+    width: 85vw;
+  }
+}
+
+
+
+.popUpWrapperBackground {
+  z-index: 100;
+  @apply duration-200 ease-in-out bg-gray-900 rounded-xl shadow-2xl p-20;
+  position: relative; 
+}
+
+.popUpWrapper {
+
+
+}
+.closePopUpButton {
+  @apply duration-200 ease-in-out;
+  position: absolute;
+  z-index: 110;
+  top: 3px;
+  right: 3px;
+  border-radius: 100%;
+  background-color: rgba(255, 0, 0, 0);
+  border: none;
+}
+
+
+.creditItem {
+  @apply duration-200 ease-in-out hover:text-amber-500;
+}
+
+.creditItem:hover {
+  scale: 110%;
+}
+
+
+
+
+
